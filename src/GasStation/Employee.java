@@ -49,18 +49,15 @@ public class Employee {
      *
      * @param EmployeeID given EmployeeID
      */
-    public Employee(int EmployeeID) throws SQLException {
+    public Employee(int EmployeeID) {
         // Instantiate gas station id
         this.EmployeeID = EmployeeID;
-
-        // Pull all data to this object
-        this.pull();
     }
 
     /**
      * Create a new Employee.
      */
-    public Employee(int GasStationID, String Name, String SSN, Double Salary, String Department, EmployeePosition EmployeePosition, Date StartDate) throws SQLException {
+    public Employee(int GasStationID, String Name, String SSN, Double Salary, String Department, EmployeePosition EmployeePosition, Date StartDate) {
         // Instantiate instance variables
         this.GasStationID = GasStationID;
         this.Name = Name;
@@ -69,9 +66,6 @@ public class Employee {
         this.Department = Department;
         this.EmployeePosition = EmployeePosition;
         this.StartDate = StartDate;
-
-        // Insert new row
-        this.create();
     }
 
     public int getEmployeeID() {
@@ -106,45 +100,40 @@ public class Employee {
         return this.StartDate;
     }
 
-    public boolean setGasStationID(int GasStationID) throws SQLException {
+    public void setGasStationID(int GasStationID) {
         this.GasStationID = GasStationID;
-        return this.push();
     }
 
-    public boolean setName(String Name) throws SQLException {
+    public void setName(String Name) {
         this.Name = Name;
-        return this.push();
     }
 
-    public boolean setSSN(String SSN) throws SQLException {
+    public void setSSN(String SSN) {
         this.SSN = SSN;
-        return this.push();
     }
 
-    public boolean setSalary(Double Salary) throws SQLException {
+    public void setSalary(Double Salary) {
         this.Salary = Salary;
-        return this.push();
     }
 
-    public boolean setDepartment(String Department) throws SQLException {
+    public void setDepartment(String Department) {
         this.Department = Department;
-        return this.push();
     }
 
-    public boolean setEmployeePosition(EmployeePosition EmployeePosition) throws SQLException {
+    public void setEmployeePosition(EmployeePosition EmployeePosition) {
         this.EmployeePosition = EmployeePosition;
-        return this.push();
     }
 
-    public boolean setStartDate(Date StartDate) throws SQLException {
+    public void setStartDate(Date StartDate) {
         this.StartDate = StartDate;
-        return this.push();
     }
 
     /**
      * Pull changes to this Employee.
+     *
+     * @return true if successful, false otherwise
      */
-    private void pull() throws SQLException {
+    public boolean pull() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -155,7 +144,9 @@ public class Employee {
 
         // Execute query
         ResultSet rs = ps.executeQuery();
-        rs.next();
+        if (!rs.next()) {
+            return false;
+        }
 
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
@@ -170,6 +161,8 @@ public class Employee {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 
     /**
@@ -177,7 +170,7 @@ public class Employee {
      *
      * @return true if push successful, false otherwise
      */
-    private boolean push() throws SQLException {
+    public boolean push() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -205,8 +198,10 @@ public class Employee {
 
     /**
      * Create a new Employee in the database.
+     *
+     * @return true if successful, false otherwise
      */
-    private void create() throws SQLException {
+    public boolean create() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -222,7 +217,12 @@ public class Employee {
         ps.setDate(7, this.StartDate);
 
         // Execute insert
-        ps.executeUpdate();
+        try {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Insert failed, duplicate row
+            return false;
+        }
 
         // Set the EmployeeID
         ResultSet rs = ps.getGeneratedKeys();
@@ -233,5 +233,7 @@ public class Employee {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 }

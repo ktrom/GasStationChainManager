@@ -15,63 +15,41 @@ public class GasStation {
     private String Location;
 
     /**
-     * Get an existing GasStation by id.
+     * Create an existing GasStation.
      *
      * @param GasStationID given GasStationID
      */
-    public GasStation(int GasStationID) throws SQLException {
+    public GasStation(int GasStationID) {
         // Instantiate gas station id
         this.GasStationID = GasStationID;
-
-        // Pull all data to this object
-        this.pull();
     }
 
     /**
      * Create a new GasStation.
      */
-    public GasStation(String Location) throws SQLException {
-        // Initialize location
+    public GasStation(String Location) {
+        // Initialize instance variables
         this.Location = Location;
-
-        // Insert new row
-        this.create();
     }
 
-    /**
-     * Get gas station id.
-     *
-     * @return gas station id
-     */
     public int getGasStationID() {
         return this.GasStationID;
     }
 
-    /**
-     * Pull potential changes and return the location.
-     *
-     * @return current location
-     */
-    public String getLocation() throws SQLException {
-        this.pull();
+    public String getLocation() {
         return this.Location;
     }
 
-    /**
-     * Set new location and push changes.
-     *
-     * @param Location new location
-     * @return true if location updated, false otherwise
-     */
-    public boolean setLocation(String Location) throws SQLException {
+    public void setLocation(String Location) {
         this.Location = Location;
-        return this.push();
     }
 
     /**
      * Pull changes to this GasStation.
+     *
+     * @return true if successful, false otherwise
      */
-    private void pull() throws SQLException {
+    public boolean pull() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -82,7 +60,9 @@ public class GasStation {
 
         // Execute query
         ResultSet rs = ps.executeQuery();
-        rs.next();
+        if (!rs.next()) {
+            return false;
+        }
 
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
@@ -92,6 +72,8 @@ public class GasStation {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 
     /**
@@ -99,7 +81,7 @@ public class GasStation {
      *
      * @return true if push successful, false otherwise
      */
-    private boolean push() throws SQLException {
+    public boolean push() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -121,8 +103,10 @@ public class GasStation {
 
     /**
      * Create a new GasStation in the database.
+     *
+     * @return true if successful, false otherwise
      */
-    private void create() throws SQLException {
+    public boolean create() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -132,7 +116,12 @@ public class GasStation {
         ps.setString(1, this.Location);
 
         // Execute insert
-        ps.executeUpdate();
+        try {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Insert failed, duplicate row
+            return false;
+        }
 
         // Set the GasStationID
         ResultSet rs = ps.getGeneratedKeys();
@@ -143,5 +132,7 @@ public class GasStation {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 }

@@ -25,13 +25,10 @@ public class Inventory {
      * @param GasStationID gas station id
      * @param ItemID item id
      */
-    public Inventory(int GasStationID, int ItemID) throws SQLException {
+    public Inventory(int GasStationID, int ItemID) {
         // Initialize instance variables
         this.GasStationID = GasStationID;
         this.ItemID = ItemID;
-
-        // Pull all data to this object
-        this.pull();
     }
 
     /**
@@ -41,14 +38,11 @@ public class Inventory {
      * @param ItemID item to track inventory of
      * @param Quantity starting quantity of item
      */
-    public Inventory(int GasStationID, int ItemID, int Quantity) throws SQLException {
+    public Inventory(int GasStationID, int ItemID, int Quantity) {
         // Initialize instance variables
         this.GasStationID = GasStationID;
         this.ItemID = ItemID;
         this.Quantity = Quantity;
-
-        // Push inventory to database
-        this.create();
     }
 
     public int getGasStationID() {
@@ -63,15 +57,16 @@ public class Inventory {
         return this.Quantity;
     }
 
-    public boolean setQuantity(int Quantity) throws SQLException {
+    public void setQuantity(int Quantity) {
         this.Quantity = Quantity;
-        return this.push();
     }
 
     /**
      * Pull changes to this Inventory.
+     *
+     * @return true if successful, false otherwise
      */
-    private void pull() throws SQLException {
+    public boolean pull() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -83,7 +78,9 @@ public class Inventory {
 
         // Execute query
         ResultSet rs = ps.executeQuery();
-        rs.next();
+        if (!rs.next()) {
+            return false;
+        }
 
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
@@ -94,6 +91,8 @@ public class Inventory {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 
     /**
@@ -101,7 +100,7 @@ public class Inventory {
      *
      * @return true if push successful, false otherwise
      */
-    private boolean push() throws SQLException {
+    public boolean push() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -124,8 +123,10 @@ public class Inventory {
 
     /**
      * Create a new Inventory entry in the database.
+     *
+     * @return true if successful, false otherwise
      */
-    private void create() throws SQLException {
+    public boolean create() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -137,10 +138,17 @@ public class Inventory {
         ps.setInt(3, this.Quantity);
 
         // Execute insert
-        ps.executeUpdate();
+        try {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Insert failed, duplicate row
+            return false;
+        }
 
         // Close opened streams
         ps.close();
         conn.close();
+
+        return true;
     }
 }

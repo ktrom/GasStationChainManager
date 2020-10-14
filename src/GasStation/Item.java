@@ -34,81 +34,69 @@ public class Item {
      *
      * @param ItemID given ItemID
      */
-    public Item(int ItemID) throws SQLException {
+    public Item(int ItemID) {
         // Instantiate gas station id
         this.ItemID = ItemID;
-
-        // Pull all data to this object
-        this.pull();
     }
 
     /**
-     * Create a new Item.
+     * Create a new item.
+     *
+     * @param Name item name
+     * @param Price item price
+     * @param PhotoURL link to photo of item
+     * @param Notes notes on item
      */
-    public Item(String Name, Double Price, String PhotoURL, String Notes) throws SQLException {
+    public Item(String Name, Double Price, String PhotoURL, String Notes) {
         // Initialize instance variables
         this.Name = Name;
         this.Price = Price;
         this.PhotoURL = PhotoURL;
         this.Notes = Notes;
-
-        // Insert new row
-        this.create();
     }
 
-    /**
-     * Get item ID.
-     *
-     * @return item id
-     */
     public int getItemID() {
         return this.ItemID;
     }
 
-    public String getName() throws SQLException {
-        this.pull();
+    public String getName() {
         return this.Name;
     }
 
-    public Double getPrice() throws SQLException {
-        this.pull();
+    public Double getPrice() {
         return this.Price;
     }
 
-    public String getPhotoURL() throws SQLException {
-        this.pull();
+    public String getPhotoURL() {
         return this.PhotoURL;
     }
 
-    public String getNotes() throws SQLException {
-        this.pull();
+    public String getNotes() {
         return this.Notes;
     }
 
-    public boolean setName(String Name) throws SQLException {
+    public void setName(String Name) {
         this.Name = Name;
-        return this.push();
     }
 
-    public boolean setPrice(Double Price) throws SQLException {
+    public void setPrice(Double Price) {
         this.Price = Price;
-        return this.push();
     }
 
-    public boolean setPhotoURL(String PhotoURL) throws SQLException {
+    public void setPhotoURL(String PhotoURL) {
         this.PhotoURL = PhotoURL;
-        return this.push();
     }
 
-    public boolean setNotes(String Notes) throws SQLException {
+    public void setNotes(String Notes) {
         this.Notes = Notes;
-        return this.push();
     }
 
     /**
      * Pull changes to this Item.
+     *
+     * @return true if successful, false otherwise
      */
-    private void pull() throws SQLException {
+    public boolean pull() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -119,7 +107,9 @@ public class Item {
 
         // Execute query
         ResultSet rs = ps.executeQuery();
-        rs.next();
+        if (!rs.next()) {
+            return false;
+        }
 
         // Set attributes for this GasStation
         this.ItemID = rs.getInt("ItemID");
@@ -132,6 +122,8 @@ public class Item {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 
     /**
@@ -139,7 +131,7 @@ public class Item {
      *
      * @return true if push successful, false otherwise
      */
-    private boolean push() throws SQLException {
+    public boolean push() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -164,8 +156,10 @@ public class Item {
 
     /**
      * Create a new Item in the database.
+     *
+     * @return true if successful, false otherwise
      */
-    private void create() throws SQLException {
+    public boolean create() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -178,7 +172,12 @@ public class Item {
         ps.setString(4, this.Notes);
 
         // Execute insert
-        ps.executeUpdate();
+        try {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Insert failed, duplicate row
+            return false;
+        }
 
         // Set the ItemID
         ResultSet rs = ps.getGeneratedKeys();
@@ -189,5 +188,7 @@ public class Item {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 }

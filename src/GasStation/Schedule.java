@@ -30,24 +30,26 @@ public class Schedule {
      * @param GasStationID gas station id
      * @param EmployeeID employee being scheduled
      */
-    public Schedule(int GasStationID, int EmployeeID) throws SQLException {
+    public Schedule(int GasStationID, int EmployeeID) {
         // Initialize instance variables
         this.GasStationID = GasStationID;
         this.EmployeeID = EmployeeID;
-
-        // Pull existing schedule to this Schedule
-        this.pull();
     }
 
-    public Schedule(int GasStationID, int EmployeeID, Date Date, String Shift) throws SQLException {
+    /**
+     * Create a new schedule.
+     *
+     * @param GasStationID gas station to schedule for
+     * @param EmployeeID employee to schedule
+     * @param Date date to schedule for
+     * @param Shift shift number to schedule
+     */
+    public Schedule(int GasStationID, int EmployeeID, Date Date, String Shift) {
         // Instantiate instance variables
         this.GasStationID = GasStationID;
         this.EmployeeID = EmployeeID;
         this.Date = Date;
         this.Shift = Shift;
-
-        // Create the new schedule
-        this.create();
     }
 
     public int getGasStationID() {
@@ -58,30 +60,28 @@ public class Schedule {
         return this.EmployeeID;
     }
 
-    public Date getDate() throws SQLException {
-        this.pull();
+    public Date getDate() {
         return this.Date;
     }
 
-    public String getShift() throws SQLException {
-        this.pull();
+    public String getShift() {
         return this.Shift;
     }
 
-    public boolean setDate(Date Date) throws SQLException {
+    public void setDate(Date Date) {
         this.Date = Date;
-        return this.push();
     }
 
-    public boolean setShift(String Shift) throws SQLException {
+    public void setShift(String Shift) {
         this.Shift = Shift;
-        return this.push();
     }
 
     /**
      * Pull changes to this Schedule.
+     *
+     * @return true if successful, false otherwise
      */
-    private void pull() throws SQLException {
+    public boolean pull() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -93,7 +93,9 @@ public class Schedule {
 
         // Execute query
         ResultSet rs = ps.executeQuery();
-        rs.next();
+        if (!rs.next()) {
+            return false;
+        }
 
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
@@ -105,6 +107,8 @@ public class Schedule {
         rs.close();
         ps.close();
         conn.close();
+
+        return true;
     }
 
     /**
@@ -112,7 +116,7 @@ public class Schedule {
      *
      * @return true if push successful, false otherwise
      */
-    private boolean push() throws SQLException {
+    public boolean push() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -136,8 +140,10 @@ public class Schedule {
 
     /**
      * Create a new Schedule entry in the database.
+     *
+     * @return true if successful, false otherwise
      */
-    private void create() throws SQLException {
+    public boolean create() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -150,10 +156,17 @@ public class Schedule {
         ps.setString(4, this.Shift);
 
         // Execute insert
-        ps.executeUpdate();
+        try {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // Insert failed, duplicate row
+            return false;
+        }
 
         // Close opened streams
         ps.close();
         conn.close();
+
+        return true;
     }
 }

@@ -19,7 +19,8 @@ public class Manager {
         // Test Employee:
 //        Employee e = new Employee(1, "Eli", "123-12-1234", 4900.39, "Cleaning", EmployeePosition.ATTENDANT, Date.valueOf("2020-10-14"));
 //        System.out.println(e.getEmployeeID());
-//
+//        e.create();
+
 //        e.setEmployeePosition(EmployeePosition.COO);
 //        System.out.println(e.getEmployeePosition());
 
