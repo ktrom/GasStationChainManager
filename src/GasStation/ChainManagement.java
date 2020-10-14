@@ -7,11 +7,12 @@ public class ChainManagement {
     /**
      * Deploy gas station management fleet to restock specified gas station.
      *
-     * @param sid gas station to restock
-     * @param items map of items and the number to restock of each
+     * @param inventory inventory to be restocked
      * @return true if fleet deployed successfully, false otherwise
      */
-    public boolean deployFleet(int sid, HashMap<Item, Integer> items) {
+    public boolean deployFleet(Inventory[] inventory) {
+
+        //
         return false;
     }
 }

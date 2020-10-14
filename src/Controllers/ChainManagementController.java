@@ -17,8 +17,8 @@ public class ChainManagementController {
      * @param items map of items and the number to restock of each
      * @return true if fleet deployed successfully, false otherwise
      */
-    public boolean deployFleet(int sid, HashMap<Item, Integer> items) {
-        return this.getChainManagementInstance().deployFleet(sid, items);
+    public boolean deployFleet(Inventory[] inventory) {
+        return this.getChainManagementInstance().deployFleet(inventory);
     }
 
     /**

@@ -10,7 +10,7 @@ public class Utilities {
      * Connect to the GasStation database.
      *
      * @return JDBC database connection instance
-     * @throws SQLException
+     * @throws SQLException on failed connection
      */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
