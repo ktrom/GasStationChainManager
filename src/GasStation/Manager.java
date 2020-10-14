@@ -6,12 +6,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Manager {
-    public static void main(String[] args) throws SQLException {
-        System.out.println("manage");
 
-        // Example database connection
+    public static void main(String[] args) throws SQLException {
+
+        // Initial database setup
         Connection conn = Utilities.getConnection();
-        DatabaseSetup d = new DatabaseSetup(conn);
-        d.initializeDatabase();
+        DatabaseSetup.initializeDatabase(conn);
+
+
     }
 }

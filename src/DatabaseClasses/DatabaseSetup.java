@@ -7,39 +7,30 @@ import java.sql.Statement;
 public class DatabaseSetup {
 
     /**
-     * Database connection instance.
-     */
-    private static Connection conn;
-
-    public DatabaseSetup(Connection conn) {
-        this.conn = conn;
-    }
-
-    /**
      * Setup all initial database tables if not already in place.
      *
      * @throws SQLException
      */
-    public void initializeDatabase() throws SQLException {
-        createGasStationTable();
-        createEmployeeTable();
-        createItemTable();
-        createInventoryTable();
-        createScheduleTable();
+    public static void initializeDatabase(Connection conn) throws SQLException {
+        createGasStationTable(conn);
+        createEmployeeTable(conn);
+        createItemTable(conn);
+        createInventoryTable(conn);
+        createScheduleTable(conn);
     }
 
-    private void createGasStationTable() throws SQLException {
+    private static void createGasStationTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
         String sql =
                 "CREATE TABLE IF NOT EXISTS GasStation(" +
                     "GasStationID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
-                    "Location VARCHAR(50)\n" +
+                    "Location VARCHAR(50) UNIQUE" +
                 ")";
         stmt.executeUpdate(sql);
     }
 
-    private void createEmployeeTable() throws SQLException {
+    private static void createEmployeeTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
         String sql =
@@ -57,7 +48,7 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
-    private void createItemTable() throws SQLException {
+    private static void createItemTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
         String sql =
@@ -71,7 +62,7 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
-    private void createInventoryTable() throws SQLException {
+    private static void createInventoryTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
         String sql =
@@ -86,7 +77,7 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
-    private void createScheduleTable() throws SQLException {
+    private static void createScheduleTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
         String sql =
