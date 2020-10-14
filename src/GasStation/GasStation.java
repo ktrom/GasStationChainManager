@@ -15,7 +15,7 @@ public class GasStation {
     private String Location;
 
     /**
-     * Pull data for an existing GasStation from the given GasStationID.
+     * Get an existing GasStation by id.
      *
      * @param GasStationID given GasStationID
      */
@@ -29,8 +29,6 @@ public class GasStation {
 
     /**
      * Create a new GasStation.
-     *
-     * @param Location given location
      */
     public GasStation(String Location) throws SQLException {
         // Instantiate location
@@ -80,7 +78,7 @@ public class GasStation {
         // Build query
         String stationQuery = "SELECT * FROM hsnkwamy_GasStation.GasStation WHERE GasStationID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
-        ps.setString(1, Integer.toString(this.GasStationID));
+        ps.setInt(1, this.GasStationID);
 
         // Execute query
         ResultSet rs = ps.executeQuery();
@@ -123,7 +121,6 @@ public class GasStation {
 
     /**
      * Create a new GasStation in the database.
-     *
      */
     private void create() throws SQLException {
         // Get database connection
@@ -141,5 +138,10 @@ public class GasStation {
         ResultSet rs = ps.getGeneratedKeys();
         rs.next();
         this.GasStationID = rs.getInt(1);
+
+        // Close opened streams
+        rs.close();
+        ps.close();
+        conn.close();
     }
 }
