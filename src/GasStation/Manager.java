@@ -29,5 +29,17 @@ public class Manager {
 //        System.out.println(emp.getSalary());
 //        System.out.println(emp.getSSN());
 //        System.out.println(emp.getGasStationID());
+
+        // Test Item:
+//        Item i = new Item("Pizza", 12.34, "www.google.com/pizza", "Standard large pizza.");
+//        System.out.println(i.getItemID());
+
+//        Item i2 = new Item(1);
+//        System.out.println(i2.getName());
+//        System.out.println(i2.getItemID());
+//        i2.setName("Breakfast Pizza");
+
+//        Item i3 = new Item(1);
+//        System.out.println(i3.getName());
     }
 }

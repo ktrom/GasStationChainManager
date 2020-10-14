@@ -31,7 +31,7 @@ public class GasStation {
      * Create a new GasStation.
      */
     public GasStation(String Location) throws SQLException {
-        // Instantiate location
+        // Initialize location
         this.Location = Location;
 
         // Insert new row
@@ -107,7 +107,7 @@ public class GasStation {
         String stationQuery = "UPDATE hsnkwamy_GasStation.GasStation SET Location = ? WHERE GasStationID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setString(1, this.Location);
-        ps.setString(2, Integer.toString(this.GasStationID));
+        ps.setInt(2, this.GasStationID);
 
         // Execute the update
         int rowsAffected = ps.executeUpdate();
