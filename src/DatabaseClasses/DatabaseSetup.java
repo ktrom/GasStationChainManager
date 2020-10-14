@@ -47,7 +47,6 @@ public class DatabaseSetup {
         String sql = "CREATE TABLE IF NOT EXISTS Item " +
                 "(ItemID INT PRIMARY KEY AUTO_INCREMENT, " +
                 "InventoryID INT, " +
-                "Quantity DOUBLE, " +
                 "FOREIGN KEY (InventoryId) REFERENCES Inventory(InventoryID))";
 
         stmt.executeUpdate(sql);
@@ -59,7 +58,12 @@ public class DatabaseSetup {
         String sql = "CREATE TABLE IF NOT EXISTS ItemDescription " +
                 "(ItemDescriptionID INT PRIMARY KEY AUTO_INCREMENT, " +
                 "ItemID INT, " +
-                "FOREIGN KEY (ItemId) REFERENCES Item(ItemID))";
+                "FOREIGN KEY (ItemId) REFERENCES Item(ItemID), " +
+                "ItemName VARCHAR(20), " +
+                "Price DOUBLE, " +
+                "Quantity DOUBLE, " +
+                "PhotoURL VARCHAR(50), " +
+                "Notes VARCHAR(50)) ";
 
         stmt.executeUpdate(sql);
     }
