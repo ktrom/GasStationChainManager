@@ -1,5 +1,7 @@
 package GasStation;
 
+import DatabaseClasses.DatabaseSetup;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -9,6 +11,7 @@ public class Manager {
 
         // Example database connection
         Connection conn = Utilities.getConnection();
-        System.out.println(conn.toString());
+        DatabaseSetup d = new DatabaseSetup(conn);
+        d.initializeDatabase();
     }
 }
