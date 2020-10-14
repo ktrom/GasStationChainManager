@@ -8,6 +8,7 @@ public class Item {
     private String photoURL;
     private String notes;
 
+
     public int getItemID() {
         return itemID;
     }
@@ -64,5 +65,9 @@ public class Item {
         this.price = price;
         this.photoURL = photoURL;
         this.notes = notes;
+    }
+
+    public void addItem(int ID){
+
     }
 }
