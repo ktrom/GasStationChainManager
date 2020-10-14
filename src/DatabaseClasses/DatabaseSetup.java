@@ -85,7 +85,8 @@ public class DatabaseSetup {
                     "GasStationID INT UNSIGNED," +
                     "EmployeeID INT UNSIGNED," +
                     "Date DATE NOT NULL," +
-                    "Shift ENUM('1', '2', '3') NOT NULL" +
+                    "Shift ENUM('1', '2', '3') NOT NULL," +
+                    "PRIMARY KEY(GasStationID, EmployeeID, Date, Shift)" +
                 ")";
         stmt.executeUpdate(sql);
     }

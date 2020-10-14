@@ -5,7 +5,6 @@ import DatabaseClasses.DatabaseSetup;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Calendar;
 
 public class Manager {
 
@@ -51,5 +50,15 @@ public class Manager {
 
 //        i2.setQuantity(0);
 //        System.out.println(i2.getQuantity());
+
+        // Test Schedule:
+//        Schedule schedule = new Schedule(1, 1, Date.valueOf("2020-10-14"), "1");
+//        System.out.println(schedule.getShift());
+
+//        Schedule sc2 = new Schedule(1, 1);
+//        sc2.setShift("3");
+
+//        Schedule sc3 = new Schedule(1, 1);
+//        System.out.println(sc3.getShift());
     }
 }
