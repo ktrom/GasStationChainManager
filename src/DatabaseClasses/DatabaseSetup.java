@@ -13,21 +13,82 @@ public class DatabaseSetup {
 
     public void initializeDatabase() throws SQLException {
         createGasStationTable();
+        createInventoryTable();
+        createItemTable();
+        createItemDescriptionTable();
+        createEmployeeTable();
+        createScheduleTable();
     }
 
-    private static void createGasStationTable() throws SQLException {
+    private void createGasStationTable() throws SQLException {
         Statement stmt = conn.createStatement();
 
         String sql = "CREATE TABLE IF NOT EXISTS GasStation " +
-                "(station_id INT PRIMARY KEY AUTO_INCREMENT, " +
+                "(GasStationID INT PRIMARY KEY AUTO_INCREMENT, " +
                 " Location VARCHAR(20)) ";
         stmt.executeUpdate(sql);
-    }
-    private void createScheduleTable(){
 
     }
 
-    private void createDatesTable(){
+    private void createInventoryTable() throws SQLException{
+        Statement stmt = conn.createStatement();
 
+        String sql = "CREATE TABLE IF NOT EXISTS Inventory " +
+                "(InventoryID INT PRIMARY KEY AUTO_INCREMENT, " +
+                "GasStationID INT, " +
+                "FOREIGN KEY (GasStationId) REFERENCES GasStation(GasStationID))";
+
+        stmt.executeUpdate(sql);
+    }
+
+    private void createItemTable() throws SQLException {
+        Statement stmt = conn.createStatement();
+
+        String sql = "CREATE TABLE IF NOT EXISTS Item " +
+                "(ItemID INT PRIMARY KEY AUTO_INCREMENT, " +
+                "InventoryID INT, " +
+                "FOREIGN KEY (InventoryId) REFERENCES Inventory(InventoryID))";
+
+        stmt.executeUpdate(sql);
+    }
+
+    private void createItemDescriptionTable() throws SQLException{
+        Statement stmt = conn.createStatement();
+
+        String sql = "CREATE TABLE IF NOT EXISTS ItemDescription " +
+                "(ItemDescriptionID INT PRIMARY KEY AUTO_INCREMENT, " +
+                "ItemID INT, " +
+                "FOREIGN KEY (ItemId) REFERENCES Item(ItemID))";
+
+        stmt.executeUpdate(sql);
+    }
+
+    private void createEmployeeTable() throws SQLException{
+        Statement stmt = conn.createStatement();
+
+        String sql = "CREATE TABLE IF NOT EXISTS Employee " +
+                "(EmployeeID INT PRIMARY KEY AUTO_INCREMENT, " +
+                "EmployeeName VARCHAR(20), " +
+                "Salary DOUBLE, " +
+                "Location VARCHAR(20), " +
+                "Department VARCHAR (20), " +
+                "EmployeePosition VARCHAR(20), " +
+                "PhotoURL VARCHAR(20))";
+
+        stmt.executeUpdate(sql);
+    }
+
+    private void createScheduleTable() throws SQLException{
+        Statement stmt = conn.createStatement();
+
+        String sql = "CREATE TABLE IF NOT EXISTS Schedule " +
+                "(GasStationID INT, " +
+                "FOREIGN KEY (GasStationID) REFERENCES GasStation(GasStationID), " +
+                "EmployeeID INT, " +
+                "FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID), " +
+                "CalenderDate INT, " +
+                "Shift INT)";
+
+        stmt.executeUpdate(sql);
     }
 }

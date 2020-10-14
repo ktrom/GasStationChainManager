@@ -1,5 +1,7 @@
 package HelperClasses;
 
+import java.util.Objects;
+
 public class Date {
     private int day;
     private int month;
@@ -7,6 +9,11 @@ public class Date {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(day, month, year);
     }
 
     public void setMonth(int month) {
