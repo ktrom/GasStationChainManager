@@ -22,9 +22,10 @@ public class DatabaseSupport {
         if (inv.pull()) {
             // Get the gas station item
             Item item = new Item(inv.getItemID());
+            item.pull();
 
-            // If item exists return it, otherwise return null
-            return item.pull() ? item : null;
+            // Return found item
+            return item;
         }
 
         // Item not found
