@@ -180,7 +180,7 @@ public class Item {
         // Execute insert
         ps.executeUpdate();
 
-        // Set the GasStationID
+        // Set the ItemID
         ResultSet rs = ps.getGeneratedKeys();
         rs.next();
         this.ItemID = rs.getInt(1);

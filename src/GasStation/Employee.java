@@ -224,7 +224,7 @@ public class Employee {
         // Execute insert
         ps.executeUpdate();
 
-        // Set the GasStationID
+        // Set the EmployeeID
         ResultSet rs = ps.getGeneratedKeys();
         rs.next();
         this.EmployeeID = rs.getInt(1);

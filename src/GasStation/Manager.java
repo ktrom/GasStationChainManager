@@ -41,5 +41,15 @@ public class Manager {
 
 //        Item i3 = new Item(1);
 //        System.out.println(i3.getName());
+
+        // Test Inventory:
+//        Inventory i = new Inventory(1, 1, 10);
+//        System.out.println(i.getGasStationID());
+
+//        Inventory i2 = new Inventory(1, 1);
+//        System.out.println(i2.getQuantity());
+
+//        i2.setQuantity(0);
+//        System.out.println(i2.getQuantity());
     }
 }
