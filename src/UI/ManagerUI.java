@@ -134,6 +134,10 @@ public class ManagerUI {
         System.out.println(sc.gasStationSchedule(gasStationId));
     }
 
+    /**
+     * Prints out all tasks for this manager's gas station
+     * @param managerIO Manager's (Actor's) ID
+     */
     private void printTasks(int managerIO){
         EmployeeController ec = new EmployeeController();
         int gasSTationID = ec.getGasStationID(managerIO);

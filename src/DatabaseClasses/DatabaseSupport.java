@@ -174,6 +174,12 @@ public class DatabaseSupport {
         return schedule;
     }
 
+    /**
+     * Returns a string of all assigned tasks at given gas station
+     * @param GasStationID ID of gas station
+     * @return String representation of all tasks at gas station
+     * @throws SQLException if query/connection is bad
+     */
     public static String gasStationTasksString(int GasStationID) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -203,6 +209,12 @@ public class DatabaseSupport {
         return schedule;
     }
 
+    /**
+     * Returns all tasks for a given employee
+     * @param employeeID ID of employee
+     * @return an arraylist of the Tasks for given employee
+     * @throws SQLException if query/connection fails
+     */
     public static ArrayList<Task> getEmployeeTasks(int employeeID) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -235,6 +247,12 @@ public class DatabaseSupport {
         return employeeTasks;
     }
 
+    /**
+     * Deletes task from database
+     * @param taskID ID of task to be removed
+     * @return true if successful deletion, false otherwise
+     * @throws SQLException if query or connection fails
+     */
     public static boolean deleteTask(int taskID) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();

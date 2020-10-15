@@ -26,6 +26,12 @@ public class TaskController {
         return true;
     }
 
+    /**
+     * Returns a String representation of all tasks assigned at this gas station along with
+     * who the tasks are assigned to
+     * @param gasStationId ID of gas station
+     * @return String of Assignee and Task Descriptions for Gas Station
+     */
     public String getGasStationTasks(int gasStationId){
         GasStation g = new GasStation(gasStationId);
         g.pull();
@@ -37,6 +43,12 @@ public class TaskController {
         return null;
     }
 
+    /**
+     * Removes a task from the database.
+     * Used when an employee completes a task
+     * @param taskID ID of task to be removed
+     * @return true if successful removal, false otherwise
+     */
     public boolean deleteTask(int taskID){
         try {
             DatabaseSupport.deleteTask(taskID);

@@ -65,6 +65,11 @@ public class EmployeeController {
         return e.create();
     }
 
+    /**
+     * Returns tasks for given Employee
+     * @param employeeID ID of employee
+     * @return ArrayList of all tasks assigned to this employee
+     */
     public ArrayList<Task> getTasks(int employeeID){
         try {
             return DatabaseSupport.getEmployeeTasks(employeeID);

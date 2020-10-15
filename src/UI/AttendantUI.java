@@ -93,6 +93,10 @@ public class AttendantUI {
         return complete;
     }
 
+    /**
+     * Allows the attendant to complete a task assigned to them
+     * @param attendantID ID of the actor (attendant)
+     */
     private void completeTask(int attendantID){
         Scanner scan = new Scanner(System.in);
         EmployeeController ec = new EmployeeController();
