@@ -3,7 +3,6 @@ package GasStation;
 import Interfaces.Model;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Transaction implements Model {
     /**

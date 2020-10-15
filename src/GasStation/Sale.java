@@ -1,7 +1,6 @@
 package GasStation;
 
 import DatabaseClasses.DatabaseSupport;
-import Interfaces.Model;
 
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
