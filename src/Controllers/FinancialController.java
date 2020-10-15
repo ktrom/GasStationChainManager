@@ -1,6 +1,7 @@
 package Controllers;
 
 import GasStation.Employee;
+import GasStation.GasStation;
 import GasStation.Utilities;
 
 import java.sql.*;
@@ -44,9 +45,11 @@ public class FinancialController {
             if (input == 1) {
                 System.out.println("Which gas station? (provide ID)");
                 int stationID = s.nextInt();
-                calculateStationRev(stationID);
+                GasStation g = new GasStation(stationID);
+                g.pull();
+                System.out.println("Total Revenue at gas station located at " + g.getLocation() + " is: $" + calculateStationRev(stationID));
             } else if(input == 2) {
-                calculateChainRev();
+                System.out.println("Total Revenue of chain is: $" + calculateChainRev());
             } else if(input == -1){
                 System.out.println("Exiting Financial Operations");
                 exit = true;
@@ -57,22 +60,46 @@ public class FinancialController {
         }
     }
 
-    private void calculateChainRev() {
+    private double calculateChainRev() {
         getDates();
-
-    }
-
-    private void calculateStationRev(int stationID) {
-        getDates();
+        double rev = 0;
 
         try {
-            getStationTransactionRevenue(stationID);
+            rev += getAllTransactionRevenue();
         } catch (SQLException throwables) {
-            System.out.println("Error calculating revenue");
+            System.out.println("Error calculating transaction revenue");
             throwables.printStackTrace();
         }
 
+        try {
+            rev += getEmployeeDeductionRevenue();
+        } catch (SQLException throwables) {
+            System.out.println("Error calculating salary revenue");
+            throwables.printStackTrace();
+        }
 
+        return rev;
+    }
+
+    private double calculateStationRev(int stationID) {
+        getDates();
+        double rev = 0;
+
+        try {
+            rev += getStationTransactionRevenue(stationID);
+        } catch (SQLException throwables) {
+            System.out.println("Error calculating transaction revenue");
+            throwables.printStackTrace();
+        }
+
+        try {
+            rev += getEmployeeDeductionRevenue(stationID);
+        } catch (SQLException throwables) {
+            System.out.println("Error calculating salary revenue");
+            throwables.printStackTrace();
+        }
+
+        return rev;
     }
 
     private void getDates() {
@@ -106,6 +133,65 @@ public class FinancialController {
         }
     }
 
+    private double getEmployeeDeductionRevenue() throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT Salary FROM hsnkwamy_GasStation.Employee";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        double salaryRevenue = 0;
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            double extrapolatedDailyPay = (rs.getDouble("Salary"))/365;
+            double millisecondsElapsed =  end.getTime() - start.getTime();
+            double daysElapsed = millisecondsElapsed/(8.64*Math.pow(10, 7));
+            salaryRevenue -= extrapolatedDailyPay * daysElapsed;
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return salaryRevenue;
+    }
+
+
+    private double getEmployeeDeductionRevenue(int gasStationID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT Salary FROM hsnkwamy_GasStation.Employee WHERE GasStationID = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, gasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        double salaryRevenue = 0;
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            double extrapolatedDailyPay = (rs.getDouble("Salary"))/365;
+            double millisecondsElapsed =  end.getTime() - start.getTime();
+            double daysElapsed = millisecondsElapsed/(8.64*Math.pow(10, 7));
+            salaryRevenue -= extrapolatedDailyPay * daysElapsed;
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return salaryRevenue;
+    }
 
     private double getStationTransactionRevenue(int gasStationID) throws SQLException {
         // Get database connection
@@ -118,6 +204,38 @@ public class FinancialController {
         ps.setInt(1, gasStationID);
         ps.setDate(2, start);
         ps.setDate(3, end);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        double transactionRevenue = 0;
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            double quantity = (rs.getDouble("Quantity"));
+            double price = (rs.getDouble("Price"));
+            double supplierPrice = (rs.getDouble("SupplierPrice"));
+            transactionRevenue += quantity * (price - supplierPrice);
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return transactionRevenue;
+    }
+
+    private double getAllTransactionRevenue() throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT Quantity, Price, SupplierPrice FROM hsnkwamy_GasStation.Transaction, hsnkwamy_GasStation.Item WHERE Transaction.ItemID = Item.ItemID " +
+                "AND Transaction.DateSold BETWEEN ? AND ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setDate(1, start);
+        ps.setDate(2, end);
 
         // Execute query
         ResultSet rs = ps.executeQuery();

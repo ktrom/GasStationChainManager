@@ -143,7 +143,7 @@ public class GasStation {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Employee WHERE GasStationID = ?";
+        String stationQuery = "SELECT EmployeeID FROM hsnkwamy_GasStation.Employee WHERE GasStationID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setInt(1, this.GasStationID);
 
