@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -57,10 +58,15 @@ public class AttendantUI {
         int quantity = scan.nextInt();
 
         SaleController sc = new SaleController();
+        int numSold;
         try {
-            sc.sellItem(gasStationID, itemId, quantity);
+            numSold = sc.sellItem(gasStationID, itemId, quantity);
         } catch (SQLException e) {
             System.out.println("System error.");
+            return false;
+        } catch (NoSuchElementException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -69,7 +75,7 @@ public class AttendantUI {
         Date d = Date.valueOf(todaysDate.toString().substring(0,10));
 
         TransactionController tc = new TransactionController();
-        boolean complete = tc.createTransaction(itemId, gasStationID, quantity, d);
+        boolean complete = tc.createTransaction(itemId, gasStationID, numSold, d);
         if(complete){
             System.out.println("Transaction recorded!\n\n");
         }
@@ -79,5 +85,4 @@ public class AttendantUI {
 
         return complete;
     }
-
 }
