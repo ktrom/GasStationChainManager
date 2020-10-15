@@ -213,7 +213,7 @@ public class Employee {
         ps.setString(3, this.SSN);
         ps.setDouble(4, this.Salary);
         ps.setString(5, this.Department);
-        ps.setString(6, this.EmployeePosition.name());
+        ps.setInt(6, this.EmployeePosition.ordinal());
         ps.setDate(7, this.StartDate);
 
         // Execute insert
