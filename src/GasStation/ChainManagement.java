@@ -3,7 +3,6 @@ package GasStation;
 import DatabaseClasses.DatabaseSupport;
 
 import java.sql.SQLException;
-import java.util.NoSuchElementException;
 
 public class ChainManagement {
 
@@ -14,27 +13,27 @@ public class ChainManagement {
      * @return true if fleet deployed successfully, false otherwise
      */
     public boolean deployFleet(Inventory[] inventory) throws SQLException {
-
         // Process each item
         for(Inventory inv : inventory) {
 
             // Validate the inventory item
             if (DatabaseSupport.getInventoryItem(inv.getGasStationID(), inv.getItemID()) == null) {
-                throw new NoSuchElementException("Invalid item " + inv.getItemID() + ".");
+                // Gas station doesn't sell this item
+                return false;
             }
 
             // Update the inventory
             Inventory invUpdated = new Inventory(inv.getGasStationID(), inv.getItemID());
+            invUpdated.pull();
 
-            // Pull down the existing inventory item for this gas station
-            if (invUpdated.pull()) {
-                // The inventory
-            } else {
-                // Gas station doesn't offer the item, return false
-                return false;
-            }
+            // Update the stock
+            invUpdated.setQuantity(invUpdated.getQuantity() + inv.getQuantity());
+
+            // Push updated quantities in stock
+            invUpdated.push();
         }
 
-        return false;
+        // Reached this point, all items have been processed
+        return true;
     }
 }

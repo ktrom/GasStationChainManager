@@ -1,10 +1,9 @@
 package GasStation;
 
-import Controllers.HiringManagerController;
+import Controllers.ChainManagementController;
 import Controllers.ScheduleController;
 import DatabaseClasses.DatabaseSetup;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -13,10 +12,10 @@ public class Manager {
 
     public static void main(String[] args) throws SQLException {
 
-        // Initial database setup
-        Connection conn = Utilities.getConnection();
-        DatabaseSetup.initializeDatabase(conn);
-
+//        // Initial database setup
+//        Connection conn = Utilities.getConnection();
+//        DatabaseSetup.initializeDatabase(conn);
+//
 //        GasStation g = new GasStation("mamacita");
 //        g.create();
 //        g.pull();
@@ -37,25 +36,15 @@ public class Manager {
 //        String scheduledDay = "2020-10-14";
 //        Date workDay = Date.valueOf(scheduledDay);
 //        ScheduleController s = new ScheduleController();
-//        s.scheduleEmployee(m.getEmployeeID());
+//        s.scheduleEmployee(m.getEmployeeID(), attendant.getEmployeeID(), workDay, 1);
 
 
-        GasStation g = new GasStation(5);
-        g.pull();
-
-        Employee manny = new Employee(17);
-        manny.pull();
-
-        HiringManagerController h = new HiringManagerController();
-        h.hiringManagerOptions(manny.getEmployeeID());
-        h.hiringManagerOptions(manny.getEmployeeID());
-        ScheduleController c=  new ScheduleController();
-        c.scheduleEmployee(manny.getEmployeeID());
-        //        GasStation g = new GasStation(1);
-//        g.pull();
+//        Item i1 = new Item("Pizza", 2.50, 0.50, "google.com/pizza", "Pizza for the boys.");
+//        i1.create();
 //
-//        ScheduleController s = new ScheduleController();
-//        s.scheduleEmployee(1);
+//        Item i2 = new Item("Chips", 1.50, 0.25, "google.com/chips", "Chippies are good");
+//        i2.create();
+
 
     }
 }
