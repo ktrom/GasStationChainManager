@@ -20,6 +20,11 @@ public class Item {
     private Double Price;
 
     /**
+     * Cost for the chain to purchase this item from the supplier.
+     */
+    private Double SupplierCost;
+
+    /**
      * Link to an image of this Item.
      */
     private String PhotoURL;
@@ -65,6 +70,10 @@ public class Item {
 
     public Double getPrice() {
         return this.Price;
+    }
+
+    public Double getSupplierCost() {
+        return this.SupplierCost;
     }
 
     public String getPhotoURL() {
@@ -115,6 +124,7 @@ public class Item {
         this.ItemID = rs.getInt("ItemID");
         this.Name = rs.getString("Name");
         this.Price = rs.getDouble("Price");
+        this.SupplierCost = rs.getDouble("SupplierCost");
         this.PhotoURL = rs.getString("PhotoURL");
         this.Notes = rs.getString("Notes");
 
@@ -136,13 +146,14 @@ public class Item {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "UPDATE hsnkwamy_GasStation.Item SET Name = ?, Price = ?, PhotoURL = ?, Notes = ? WHERE ItemID = ?";
+        String stationQuery = "UPDATE hsnkwamy_GasStation.Item SET Name = ?, Price = ?, SupplierCost = ?, PhotoURL = ?, Notes = ? WHERE ItemID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setString(1, this.Name);
         ps.setDouble(2, this.Price);
-        ps.setString(3, this.PhotoURL);
-        ps.setString(4, this.Notes);
-        ps.setInt(5, this.ItemID);
+        ps.setDouble(3, this.SupplierCost);
+        ps.setString(4, this.PhotoURL);
+        ps.setString(5, this.Notes);
+        ps.setInt(6, this.ItemID);
 
         // Execute the update
         int rowsAffected = ps.executeUpdate();
@@ -164,12 +175,13 @@ public class Item {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "INSERT INTO hsnkwamy_GasStation.Item SET Name = ?, Price = ?, PhotoURL = ?, Notes = ?";
+        String stationQuery = "INSERT INTO hsnkwamy_GasStation.Item SET Name = ?, Price = ?, SupplierCost = ?, PhotoURL = ?, Notes = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, this.Name);
         ps.setDouble(2, this.Price);
-        ps.setString(3, this.PhotoURL);
-        ps.setString(4, this.Notes);
+        ps.setDouble(3, this.SupplierCost);
+        ps.setString(4, this.PhotoURL);
+        ps.setString(5, this.Notes);
 
         // Execute insert
         try {

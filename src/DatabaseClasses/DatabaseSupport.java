@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DatabaseSupport {
 
     /**
-     * Get a sales item at a given gas station.
+     * Get an item at a given gas station.
      *
      * @param GasStationID given gas station
      * @param ItemID given item id
