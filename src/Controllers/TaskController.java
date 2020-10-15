@@ -20,7 +20,7 @@ public class TaskController {
      * @param taskDescription Description of the task
      * @return true if success creation & saving of the Task, false otherwise
      */
-    public boolean createTask(int gasStationID, int IDOfEmployee, String taskDescription) {
+    public boolean assignTask(int gasStationID, int IDOfEmployee, String taskDescription) {
         Task task = new Task(gasStationID, IDOfEmployee, taskDescription);
         task.create();
         return true;

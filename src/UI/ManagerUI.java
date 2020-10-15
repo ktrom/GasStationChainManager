@@ -5,7 +5,6 @@ import Controllers.GasStationController;
 import Controllers.ScheduleController;
 import Controllers.TaskController;
 import GasStation.Employee;
-import GasStation.Task;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -139,7 +138,7 @@ public class ManagerUI {
             taskDescription = scan.nextLine();
 
             TaskController tc = new TaskController();
-            tc.createTask(gasStationID, employeeId, taskDescription);
+            tc.assignTask(gasStationID, employeeId, taskDescription);
         }
     }
 
