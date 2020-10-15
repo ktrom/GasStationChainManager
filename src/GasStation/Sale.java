@@ -40,8 +40,7 @@ public class Sale {
         Double saleTotal = DatabaseSupport.calculateSaleTotal(ItemID, quantityToSell);
 
         // Update inventory
-        inv.setQuantity(inv.getQuantity() - quantityToSell);
-        inv.push();
+        DatabaseSupport.removeInventory(GasStationID, ItemID, quantityToSell);
 
         // Log the transaction
         // TODO

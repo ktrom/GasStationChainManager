@@ -83,4 +83,21 @@ public class DatabaseSupport {
         Inventory inv = new Inventory(GasStationID, ItemID);
         return inv.pull();
     }
+
+    /**
+     * Remove quantity from inventory at a gas station.
+     *
+     * @param GasStationID gas station to remove inventory from
+     * @param ItemID item to remove
+     * @param Quantity quantity of item to remove
+     */
+    public static void removeInventory(int GasStationID, int ItemID, int Quantity) throws SQLException {
+        // Get current  inventory
+        Inventory inv = new Inventory(GasStationID, ItemID);
+        inv.pull();
+
+        // Remove inventory
+        inv.setQuantity(inv.getQuantity() - Quantity);
+        inv.push();
+    }
 }
