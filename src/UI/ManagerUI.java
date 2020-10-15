@@ -5,6 +5,7 @@ import Controllers.GasStationController;
 import Controllers.ScheduleController;
 import Controllers.TaskController;
 import GasStation.Employee;
+import GasStation.Task;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,11 +25,12 @@ public class ManagerUI {
         System.out.println("Logged in as Manager\n");
         int option = 1;
 
-        while(option == 1 || option == 2 || option == 3) {
+        while(option == 1 || option == 2 || option == 3 || option == 4) {
             System.out.println("Select an option or enter -1 to quit:");
             System.out.println("1. Schedule Employees");
             System.out.println("2. Assign Tasks");
             System.out.println("3. Print Out Schedule");
+            System.out.println("4. Print Out Tasks");
             option = scan.nextInt();
             if (option == 1) {
                 scheduleEmployee(managerID);
@@ -37,6 +39,9 @@ public class ManagerUI {
             }
             else if(option == 3){
                 printSchedule(managerID);
+            }
+            else if(option == 4){
+                printTasks(managerID);
             }
         }
     }
@@ -107,6 +112,7 @@ public class ManagerUI {
         System.out.println("What is the ID of the employee you would like to assign? ");
         IDofAssignedEmployee = scan.nextInt();
 
+        scan.nextLine();
         String taskDescription;
         System.out.println("Give a brief description of the task: ");
         taskDescription = scan.nextLine();
@@ -126,6 +132,15 @@ public class ManagerUI {
         ScheduleController sc = new ScheduleController();
         System.out.println("Schedule");
         System.out.println(sc.gasStationSchedule(gasStationId));
+    }
+
+    private void printTasks(int managerIO){
+        EmployeeController ec = new EmployeeController();
+        int gasSTationID = ec.getGasStationID(managerIO);
+
+        TaskController tc = new TaskController();
+        System.out.println("Tasks");
+        System.out.println(tc.getGasStationTasks(gasSTationID));
     }
 }
 

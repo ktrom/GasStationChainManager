@@ -1,9 +1,8 @@
 package DatabaseClasses;
 
-import GasStation.Employee;
-import GasStation.Inventory;
-import GasStation.Item;
-import GasStation.Utilities;
+import Controllers.EmployeeController;
+import Controllers.TaskController;
+import GasStation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -173,5 +172,85 @@ public class DatabaseSupport {
         conn.close();
 
         return schedule;
+    }
+
+    public static String gasStationTasksString(int GasStationID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Task, hsnkwamy_GasStation.Employee WHERE Employee.GasStationID = ? AND Employee.EmployeeID = Task.EmployeeID ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            String name = (rs.getString("Name"));
+            String taskDescription = (rs.getString("TaskDescription"));
+            schedule+= name + " has task: " + taskDescription + "\n";
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return schedule;
+    }
+
+    public static ArrayList<Task> getEmployeeTasks(int employeeID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Task WHERE Task.EmployeeID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, employeeID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+
+        ArrayList<Task> employeeTasks = new ArrayList<Task>();
+        while (rs.next()) {
+            int taskID = (rs.getInt("TaskID"));
+            Task t = new Task(taskID);
+            t.pull();
+             employeeTasks.add(t);
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return employeeTasks;
+    }
+
+    public static boolean deleteTask(int taskID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "DELETE FROM hsnkwamy_GasStation.Task WHERE Task.TaskID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, taskID);
+
+        // Execute query
+        ps.executeUpdate();
+
+        // Close all opened streams
+        ps.close();
+        conn.close();
+
+        return true;
     }
 }

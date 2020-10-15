@@ -37,4 +37,10 @@ public class GasStationController {
 
         return null;
     }
+
+    public String getLocation(int gasStationID){
+        GasStation g = new GasStation(gasStationID);
+        g.pull();
+        return g.getLocation();
+    }
 }

@@ -131,10 +131,7 @@ public class Task implements Model {
         return rowsAffected == 1;
     }
 
-    /**
-     * Creates row in the database corresponding with this objects ID and all initialized properties
-     * @return true if successful, false otherwise
-     */
+
     public boolean create(){
         try {
             return createHelper();
