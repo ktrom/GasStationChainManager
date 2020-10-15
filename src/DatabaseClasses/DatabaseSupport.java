@@ -1,9 +1,12 @@
 package DatabaseClasses;
 
+import GasStation.Employee;
 import GasStation.Inventory;
 import GasStation.Item;
+import GasStation.Utilities;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseSupport {
 
@@ -99,5 +102,76 @@ public class DatabaseSupport {
         // Remove inventory
         inv.setQuantity(inv.getQuantity() - Quantity);
         inv.push();
+    }
+
+    /**
+     * Gets all employees at this gas station
+     * @return An ArrayList of the Employees that work at this gas station
+     * @throws SQLException if unsuccessful query
+     */
+    public static ArrayList<Employee> getStationEmployees(int GasStationID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT EmployeeID FROM hsnkwamy_GasStation.Employee WHERE GasStationID = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        // Set attributes for this GasStation
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        while (rs.next()) {
+            int empID;
+            empID = (rs.getInt("EmployeeID"));
+            Employee e = new Employee(empID);
+            e.pull();
+            employees.add(e);
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return employees;
+    }
+
+    /**
+     * Returns a string representation of the schedule for this gas station
+     * @return Ready-To-Print schedule as String
+     * @throws SQLException if unsuccessful query
+     */
+    public static String gasStationScheduleString(int GasStationID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Schedule, hsnkwamy_GasStation.Employee WHERE Employee.GasStationID = ? AND Employee.EmployeeID = Schedule.EmployeeID " +
+                "ORDER BY DATE ASC, SHIFT ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            String name = (rs.getString("Name"));
+            Date Date = (rs.getDate("Date"));
+            int shift = (rs.getInt("Shift"));
+            schedule+= name + " is scheduled for " + Date.toString().substring(0,10) + " for shift " + shift +"\n";
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return schedule;
     }
 }

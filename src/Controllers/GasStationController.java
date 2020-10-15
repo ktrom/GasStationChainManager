@@ -1,5 +1,6 @@
 package Controllers;
 
+import DatabaseClasses.DatabaseSupport;
 import GasStation.GasStation;
 
 import java.sql.SQLException;
@@ -19,15 +20,21 @@ public class GasStationController {
         g.create();
     }
 
+    /**
+     * Returns a lit of all employees at the given gas station
+     * @param gasStationID Desired GasStation
+     * @return ArrayList of all Employees at given GasStation
+     */
     public ArrayList<Employee> getEmployees(int gasStationID)  {
         GasStation g = new GasStation(gasStationID);
         g.pull();
 
         try {
-            return g.getEmployees();
+            return DatabaseSupport.getStationEmployees(g.getGasStationID());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         return null;
     }
 }

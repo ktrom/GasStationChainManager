@@ -1,8 +1,10 @@
 package Controllers;
 
 
+import DatabaseClasses.DatabaseSupport;
 import GasStation.GasStation;
 import GasStation.Schedule;
+import HelperClasses.HelperFunctions;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -25,7 +27,7 @@ public class ScheduleController{
         g.pull();
 
         try {
-            return g.gasStationScheduleString();
+            return DatabaseSupport.gasStationScheduleString(g.getGasStationID());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -40,7 +42,8 @@ public class ScheduleController{
      * @param shift Shift to schedule employee for
      * @return true if successful creation & save, false otherwise
      */
-    public boolean scheduleEmployee(int gasStationID, int employeeId, Date date, int shift){
+    public boolean
+    scheduleEmployee(int gasStationID, int employeeId, Date date, int shift){
         Schedule schedule = new Schedule(gasStationID, employeeId, date, shift);
         schedule.create();
         return true;
