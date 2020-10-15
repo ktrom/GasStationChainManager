@@ -3,13 +3,12 @@ package UI;
 import Controllers.HiringManagerController;
 import GasStation.Employee;
 import GasStation.EmployeeDepartment;
-import GasStation.EmployeePosition;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Scanner;
 /**-
- * Controller used by an employee with the position Hiring Manager manage employees
+ * UI used by an employee with the position Hiring Manager manage employees
  * Currently the only operation is hiring employees
  */
 public class HiringManagerUI {
@@ -165,8 +164,15 @@ public class HiringManagerUI {
         }
 
         HiringManagerController hmc = new HiringManagerController();
-        newHire = hmc.addEmployee(this.GasStationID, this.Name, this.SSN, this.Salary, this.Department, this.EmployeePosition, this.StartDate);
+        newHire = hmc.hireEmployee(this.GasStationID, this.Name, this.SSN, this.Salary, this.Department, this.EmployeePosition, this.StartDate);
 
+        reportEmployeeInfo();
+    }
+
+    /**
+     * Prints the newly registered employee's information to the screen
+     */
+    private void reportEmployeeInfo(){
         //return new hire info
         System.out.println("\nEmployee Registered: ");
         System.out.println("EmployeeId: " + newHire.getEmployeeID());
@@ -178,7 +184,6 @@ public class HiringManagerUI {
         System.out.println("Salary: " + newHire.getSalary());
         System.out.println("Start Date:" + newHire.getStartDate());
     }
-
     /**
      * All available operations a hiring manager can perform
      * Manager types number corresponding to the operation they wish to perform

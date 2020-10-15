@@ -8,8 +8,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * Class representing the Gas Station Manager Application
+ */
 public class Manager {
 
+    /**
+     * Method to run the Gas Station Manager Application
+     * @param args
+     * @throws SQLException when connection fails to establish
+     */
     public static void main(String[] args) throws SQLException {
 
         // Initial database setup
@@ -21,6 +29,7 @@ public class Manager {
         int id = scan.nextInt();
         System.out.println();
 
+        // Considering admin capabilities
         if (id != -999) {
             EmployeeController ec = new EmployeeController();
             EmployeePosition position = ec.getEmployeePosition(id);

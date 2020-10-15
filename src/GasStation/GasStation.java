@@ -167,9 +167,11 @@ public class GasStation implements Model {
     }
 
 
-
-
-
+    /**
+     * Gets all employees at this gas station
+     * @return An ArrayList of the Employees that work at this gas station
+     * @throws SQLException if unsuccessful query
+     */
     public ArrayList<Employee> getEmployees() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -200,6 +202,12 @@ public class GasStation implements Model {
         return employees;
     }
 
+    /**
+     * Calculates the total revenue at this gas station for the given time period - this includes employee salary deductions and transaction revenue
+     * @param start start date
+     * @param end end date
+     * @return Total revenue for this gas station in the given time period
+     */
     public double calculateStationRev(Date start, Date end) {
         double rev = 0;
 
@@ -220,6 +228,13 @@ public class GasStation implements Model {
         return rev;
     }
 
+    /**
+     * Returns the revenue from all transactions at this gas station for the given time frame
+     * @param start start date
+     * @param end end date
+     * @return Total revenue from transactions for this GasStation for the given time frame
+     * @throws SQLException if unsuccessful query
+     */
     private double getStationTransactionRevenue(Date start, Date end) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -253,6 +268,13 @@ public class GasStation implements Model {
         return transactionRevenue;
     }
 
+    /**
+     * Returns the sum of all Employees' salaries cost to the company at this gas station for the given periood
+     * @param start start date
+     * @param end end date
+     * @return Sum of all employees' salaries cost to the company (negative value)
+     * @throws SQLException if unsuccessful query
+     */
     private double getStationEmployeeDeductionRevenue(Date start, Date end) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -283,6 +305,12 @@ public class GasStation implements Model {
         return salaryRevenue;
     }
 
+    /**
+     * Calculates the total Chain revenue for the given time period - this includes employee salaries and transaction revenues
+     * @param start start date
+     * @param end end date
+     * @return Revenue for the entire Gas Station Chain
+     */
     public static double calculateChainRev(Date start, Date end) {
         double rev = 0;
 
@@ -303,6 +331,13 @@ public class GasStation implements Model {
         return rev;
     }
 
+    /**
+     * Returns the sum of cost of all employees' salaries in the given time period in the Gas Station Chain
+     * @param start start date
+     * @param end end date
+     * @return the sum of all employees' salaries (a negative value)
+     * @throws SQLException if unsuccessful queries
+     */
     private static double getAllEmployeeDeductionRevenue(Date start, Date end) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -332,6 +367,13 @@ public class GasStation implements Model {
         return salaryRevenue;
     }
 
+    /**
+     * Returns the total revenue from all transactions in the gas station chain for the given time period
+     * @param start start date
+     * @param end end date
+     * @return sum of revenue from all transactions in the chain
+     * @throws SQLException if unsuccessful query
+     */
     private static double getAllTransactionRevenue(Date start, Date end) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -364,5 +406,39 @@ public class GasStation implements Model {
         return transactionRevenue;
     }
 
+    /**
+     * Returns a string representation of the schedule for this gas station
+     * @return Ready-To-Print schedule as String
+     * @throws SQLException if unsuccessful query
+     */
+    public String gasStationScheduleString() throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
 
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Schedule, hsnkwamy_GasStation.Employee WHERE Employee.GasStationID = ? AND Employee.EmployeeID = Schedule.EmployeeID " +
+                "ORDER BY DATE ASC, SHIFT ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            String name = (rs.getString("Name"));
+            Date Date = (rs.getDate("Date"));
+            int shift = (rs.getInt("Shift"));
+            schedule+= name + " is scheduled for " + Date.toString().substring(0,10) + " for shift " + shift +"\n";
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return schedule;
+    }
 }

@@ -6,6 +6,9 @@ import GasStation.EmployeePosition;
 import java.sql.Date;
 import java.util.Scanner;
 
+/**
+ * User Interaction class for an Admin
+ */
 public class AdminUI {
     public void handleAdmin(int adminID){
         Scanner scan = new Scanner(System.in);
@@ -184,6 +187,6 @@ public class AdminUI {
         int shift = scan.nextInt();
 
         ScheduleController sc = new ScheduleController();
-        sc.createSchedule(gasStationId, employeeId, date, shift);
+        sc.scheduleEmployee(gasStationId, employeeId, date, shift);
     }
 }

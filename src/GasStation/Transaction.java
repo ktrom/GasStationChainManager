@@ -75,6 +75,10 @@ public class Transaction implements Model {
         DateSold = dateSold;
     }
 
+    /**
+     * Pulls existing data from the database corresponding with this objects ID
+     * @return true if successful, false otherwise
+     */
     public boolean pull(){
         try {
             return pullHelper();
@@ -112,6 +116,10 @@ public class Transaction implements Model {
         return true;
     }
 
+    /**
+     * Pushes data to the database corresponding for this objects ID
+     * @return true if successful, false otherwise
+     */
     public boolean push(){
         try {
             return pushHelper();
@@ -143,6 +151,10 @@ public class Transaction implements Model {
         return rowsAffected == 1;
     }
 
+    /**
+     * Creates row in the database corresponding with this objects ID and all initialized properties
+     * @return true if successful, false otherwise
+     */
     public boolean create(){
         try {
             return createHelper();

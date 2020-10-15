@@ -26,7 +26,7 @@ public class HiringManagerController {
      * @param startDate The employee's first day with the company
      * @return Employee
      */
-    public Employee addEmployee(int GasStationID, String Name, String SSN, Double salary, String department, EmployeePosition employeePosition, Date startDate) throws SQLException {
+    public Employee hireEmployee(int GasStationID, String Name, String SSN, Double salary, String department, EmployeePosition employeePosition, Date startDate) throws SQLException {
         Employee newHire = new Employee(GasStationID, Name, SSN, salary, department, employeePosition, startDate);
         newHire.create();
         return newHire;

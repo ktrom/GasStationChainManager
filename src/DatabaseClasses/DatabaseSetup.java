@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Creates all necessary tables in the database if nonexistent
+ */
 public class DatabaseSetup {
 
     /**
@@ -21,6 +24,11 @@ public class DatabaseSetup {
         createTaskTable(conn);
     }
 
+    /**
+     * Creates a table for the GasStation class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createGasStationTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -32,6 +40,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Employee class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createEmployeeTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -50,6 +63,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Item class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createItemTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -65,6 +83,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Inventory class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createInventoryTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -80,6 +103,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Schedule class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createScheduleTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -94,6 +122,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Transaction class in the database 
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createTransactionTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -111,6 +144,11 @@ public class DatabaseSetup {
     }
 
 
+    /**
+     * Creates a table for the Task class in the database
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createTaskTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
