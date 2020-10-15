@@ -1,6 +1,8 @@
 package GasStation;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class GasStation {
 
@@ -135,4 +137,35 @@ public class GasStation {
 
         return true;
     }
+
+    public ArrayList<Employee> getEmployees() throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Employee WHERE GasStationID = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, this.GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        // Set attributes for this GasStation
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        while (rs.next()) {
+            int empID;
+            empID = (rs.getInt("EmployeeID"));
+            Employee e = new Employee(empID);
+            e.pull();
+            employees.add(e);
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return employees;
+    }
+
 }
