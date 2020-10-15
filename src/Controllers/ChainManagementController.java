@@ -1,7 +1,8 @@
 package Controllers;
 
 import GasStation.*;
-import java.util.HashMap;
+
+import java.sql.SQLException;
 
 public class ChainManagementController {
 
@@ -13,11 +14,10 @@ public class ChainManagementController {
     /**
      * Deploy gas station management fleet to restock specified gas station.
      *
-     * @param sid gas station to restock
-     * @param items map of items and the number to restock of each
+     * @param inventory items and quantities to restock
      * @return true if fleet deployed successfully, false otherwise
      */
-    public boolean deployFleet(Inventory[] inventory) {
+    public boolean deployFleet(Inventory[] inventory) throws SQLException {
         return this.getChainManagementInstance().deployFleet(inventory);
     }
 
@@ -26,7 +26,7 @@ public class ChainManagementController {
      *
      * @return chain management instance
      */
-    public ChainManagement getChainManagementInstance() {
+    private ChainManagement getChainManagementInstance() {
         this.management = new ChainManagement();
         return this.management;
     }

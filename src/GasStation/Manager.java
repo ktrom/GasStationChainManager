@@ -1,6 +1,5 @@
 package GasStation;
 
-import Controllers.HiringManagerController;
 import Controllers.ScheduleController;
 import Controllers.TransactionController;
 import DatabaseClasses.DatabaseSetup;

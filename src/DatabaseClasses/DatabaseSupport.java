@@ -8,13 +8,13 @@ import java.sql.SQLException;
 public class DatabaseSupport {
 
     /**
-     * Get a sales item at a given gas station.
+     * Get an item at a given gas station.
      *
      * @param GasStationID given gas station
      * @param ItemID given item id
      * @return the Item if found, null otherwise
      */
-    public Item getInventoryItem(int GasStationID, int ItemID) throws SQLException {
+    public static Item getInventoryItem(int GasStationID, int ItemID) throws SQLException {
         // Get the inventory entry for item at the given gas station
         Inventory inv = new Inventory(GasStationID, ItemID);
 

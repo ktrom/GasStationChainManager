@@ -58,6 +58,7 @@ public class DatabaseSetup {
                     "ItemID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
                     "Name VARCHAR(20) NOT NULL," +
                     "Price DOUBLE NOT NULL," +
+                    "SupplierPrice DOUBLE NOT NULL," +
                     "PhotoURL TEXT," +
                     "Notes TEXT" +
                 ")";
