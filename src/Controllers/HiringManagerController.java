@@ -88,9 +88,16 @@ public class HiringManagerController {
         }
     }
 
-    private boolean getPosition(Scanner s){
+    /**
+     * Gets user input to select new hire position based department selected
+     * User types number corresponding to position
+     * @param s is a Scanner for user input
+     * @return true when complete
+     */
+    private boolean getPosition(Scanner s) {
         System.out.println("\n\n");
-        while(true){
+        //runs until successful position input
+        while (true) {
             printPositions();
             System.out.print("Type number of new hire's position: ");
             int input = s.nextInt();
