@@ -54,15 +54,8 @@ public class ScheduleController {
 
          String date = "";
 
-         System.out.println("What day would you like to schedule the employee for? (MM/DD/YYYY)\n");
-         System.out.println("MM: ");
-         date += s.next();
-
-         System.out.println("\nDD: ");
-         date += s.next();
-
-         System.out.println("YYYY: ");
-         date += s.next();
+         System.out.println("What day would you like to schedule the employee for? (YYYY-MM-DD)");
+         date = s.next();
 
          Date d = Date.valueOf(date);
 
@@ -74,7 +67,7 @@ public class ScheduleController {
          System.out.println("Enter 1, 2, or 3: ");
          int shift = s.nextInt();
 
-         Schedule schedule = new Schedule(managerId, employeeId, d, shift);
+         Schedule schedule = new Schedule(currentStation.getGasStationID(), employeeId, d, shift);
          try {
              schedule.create();
          } catch (SQLException throwables) {

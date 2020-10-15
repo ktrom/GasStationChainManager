@@ -154,7 +154,7 @@ public class HiringManagerController {
                 System.out.println("Sorry, that operation is not available. Select from the list of available options.");
             }
         }
-        s.close();
+
     }
 
     private boolean hireEmployee(Scanner s, int managerId) throws SQLException {
@@ -164,8 +164,4 @@ public class HiringManagerController {
         return true;
     }
 
-    public static void main(String[] args) throws SQLException {
-        HiringManagerController h = new HiringManagerController();
-        h.hiringManagerOptions(1);
-    }
 }

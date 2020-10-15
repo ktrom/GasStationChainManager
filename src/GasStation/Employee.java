@@ -37,7 +37,7 @@ public class Employee {
     /**
      * Employee position.
      */
-    private EmployeePosition EmployeePosition;
+    private EmployeePosition employeePosition;
 
     /**
      * Employee start date in position.
@@ -64,7 +64,7 @@ public class Employee {
         this.SSN = SSN;
         this.Salary = Salary;
         this.Department = Department;
-        this.EmployeePosition = EmployeePosition;
+        this.employeePosition = EmployeePosition;
         this.StartDate = StartDate;
     }
 
@@ -94,7 +94,7 @@ public class Employee {
     }
 
     public EmployeePosition getEmployeePosition() {
-        return this.EmployeePosition;
+        return this.employeePosition;
     }
 
     public Date getStartDate() {
@@ -122,7 +122,7 @@ public class Employee {
     }
 
     public void setEmployeePosition(EmployeePosition EmployeePosition) {
-        this.EmployeePosition = EmployeePosition;
+        this.employeePosition = EmployeePosition;
     }
 
     public void setStartDate(Date StartDate) {
@@ -155,7 +155,8 @@ public class Employee {
         this.SSN = rs.getString("SSN");
         this.Salary = rs.getDouble("Salary");
         this.Department = rs.getString("Department");
-        this.EmployeePosition = EmployeePosition.valueOf(rs.getString("EmployeePosition").toUpperCase());
+        String poo = rs.getString("EmployeePosition").toUpperCase();
+        this.employeePosition = EmployeePosition.valueOf(poo);
         this.StartDate = rs.getDate("StartDate");
 
         // Close all opened streams
@@ -183,7 +184,7 @@ public class Employee {
         ps.setString(3, this.SSN);
         ps.setDouble(4, this.Salary);
         ps.setString(5, this.Department);
-        ps.setInt(6, this.EmployeePosition.ordinal() + 1);
+        ps.setString(6, this.employeePosition.name());
         ps.setDate(7, this.StartDate);
         ps.setInt(8, this.EmployeeID);
 
@@ -214,7 +215,7 @@ public class Employee {
         ps.setString(3, this.SSN);
         ps.setDouble(4, this.Salary);
         ps.setString(5, this.Department);
-        ps.setInt(6, this.EmployeePosition.ordinal() + 1);
+        ps.setString(6, String.valueOf(this.employeePosition));
         ps.setDate(7, this.StartDate);
 
         // Execute insert

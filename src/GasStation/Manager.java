@@ -1,5 +1,6 @@
 package GasStation;
 
+import Controllers.HiringManagerController;
 import Controllers.ScheduleController;
 import DatabaseClasses.DatabaseSetup;
 
@@ -38,11 +39,23 @@ public class Manager {
 //        ScheduleController s = new ScheduleController();
 //        s.scheduleEmployee(m.getEmployeeID());
 
-        GasStation g = new GasStation(1);
+
+        GasStation g = new GasStation(5);
         g.pull();
 
-        ScheduleController s = new ScheduleController();
-        s.scheduleEmployee(1);
+        Employee manny = new Employee(17);
+        manny.pull();
+
+        HiringManagerController h = new HiringManagerController();
+        h.hiringManagerOptions(manny.getEmployeeID());
+        h.hiringManagerOptions(manny.getEmployeeID());
+        ScheduleController c=  new ScheduleController();
+        c.scheduleEmployee(manny.getEmployeeID());
+        //        GasStation g = new GasStation(1);
+//        g.pull();
+//
+//        ScheduleController s = new ScheduleController();
+//        s.scheduleEmployee(1);
 
     }
 }

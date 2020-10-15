@@ -151,7 +151,7 @@ public class Schedule {
         String stationQuery = "INSERT INTO hsnkwamy_GasStation.Schedule SET GasStationID = ?, EmployeeID = ?, Date = ?, Shift = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setInt(1, this.GasStationID);
-        ps.setInt(2, this.GasStationID);
+        ps.setInt(2, this.EmployeeID);
         ps.setDate(3, this.Date);
         ps.setInt(4, this.Shift);
 
