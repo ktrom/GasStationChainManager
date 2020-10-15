@@ -1,5 +1,6 @@
 package GasStation;
 
+import DatabaseClasses.DatabaseSupport;
 import HelperClasses.HelperFunctions;
 import Interfaces.Model;
 
@@ -370,6 +371,21 @@ public class GasStation implements Model {
         conn.close();
 
         return transactionRevenue;
+    }
+
+    /**
+     * Randomly assigns tasks
+     * @param descriptions Descriptions of tasks
+     * @return true if successful
+     */
+    public boolean assignRandomTasks(ArrayList<String> descriptions){
+        try {
+            DatabaseSupport.assignRandomTasks(getGasStationID(), descriptions);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }

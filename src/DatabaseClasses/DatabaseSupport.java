@@ -6,6 +6,7 @@ import GasStation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DatabaseSupport {
 
@@ -268,6 +269,52 @@ public class DatabaseSupport {
         // Close all opened streams
         ps.close();
         conn.close();
+
+        return true;
+    }
+
+    /**
+     * Assigns random tasks to employees in the gas station
+     * @param GasStationID ID of gas station
+     * @param descriptions Descriptions of tasks
+     * @return true if successful, false othersie
+     * @throws SQLException if failed connection or query
+     */
+    public static boolean assignRandomTasks(int GasStationID, ArrayList<String> descriptions) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Employee WHERE Employee.GasStationID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        while (rs.next()) {
+            int employeeID = (rs.getInt("EmployeeID"));
+            Employee e = new Employee(employeeID);
+            e.pull();
+            employees.add(e);
+        }
+
+        employees.removeIf(emp->emp.getEmployeePosition() == EmployeePosition.MANAGER);
+        Collections.shuffle(employees);
+        for(int i = 0; i < descriptions.size(); i++){
+            TaskController ts = new TaskController();
+            ts.assignTask(GasStationID, employees.get(i % employees.size()).getEmployeeID(), descriptions.get(i));
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
 
         return true;
     }

@@ -5,9 +5,13 @@ import Controllers.GasStationController;
 import Controllers.ScheduleController;
 import Controllers.TaskController;
 import GasStation.Employee;
+import GasStation.EmployeePosition;
+import GasStation.Task;
 
+import java.sql.Array;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -27,9 +31,10 @@ public class ManagerUI {
         while(option == 1 || option == 2 || option == 3 || option == 4) {
             System.out.println("Select an option or enter -1 to quit:");
             System.out.println("1. Schedule Employees");
-            System.out.println("2. Assign Tasks");
-            System.out.println("3. Print Out Schedule");
-            System.out.println("4. Print Out Tasks");
+            System.out.println("2. Assign Task");
+            System.out.println("3. Randomly Assign Multiple Tasks");
+            System.out.println("4. Print Out Schedule");
+            System.out.println("5. Print Out Tasks");
             option = scan.nextInt();
             if (option == 1) {
                 scheduleEmployee(managerID);
@@ -37,9 +42,12 @@ public class ManagerUI {
                 assignTask(managerID);
             }
             else if(option == 3){
-                printSchedule(managerID);
+                assignRandomTasks(managerID);
             }
             else if(option == 4){
+                printSchedule(managerID);
+            }
+            else if(option == 5){
                 printTasks(managerID);
             }
         }
@@ -167,6 +175,43 @@ public class ManagerUI {
         System.out.println("Tasks");
         System.out.println(tc.getGasStationTasks(gasSTationID));
     }
-}
+
+    /**
+     * Assigns random tasks between employees
+     * @param managerID ID of manager
+     */
+    private void assignRandomTasks(int managerID){
+        EmployeeController ec = new EmployeeController();
+        Employee manager = ec.getEmployee(managerID);
+
+        int gasStationID = ec.getGasStationID(managerID);
+
+        Scanner scan = new Scanner(System.in);
+
+        GasStationController gsc = new GasStationController();
+        ArrayList<Employee> availableEmployees = gsc.getEmployees(gasStationID);
+
+        if (availableEmployees.size() == 0){
+            System.out.print("No employees in system!");
+        }
+        else {
+            System.out.println("Enter as many tasks as you have and they will be randomly distributed evenly among your employees");
+            ArrayList<String> descriptions = new ArrayList<String>();
+            int count = 1;
+            while(count != -1){
+                System.out.println("Enter next task: ");
+                String description = scan.nextLine();
+
+                descriptions.add(description);
+                System.out.println("Enter -1 to exit or enter 1 to enter another task");
+                count = scan.nextInt();
+                scan.nextLine();
+            }
+            TaskController tc = new TaskController();
+            gsc.assignRandomTasks(gasStationID, descriptions);
+            int selectedIndex = scan.nextInt() - 1;
+    }
+}}
+
 
 
