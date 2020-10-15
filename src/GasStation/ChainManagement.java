@@ -27,9 +27,6 @@ public class ChainManagement {
         invUpdated.setQuantity(invUpdated.getQuantity() + inventory.getQuantity());
         invUpdated.push();
 
-        // Log the transaction
-        // TODO
-
         return true;
     }
 }

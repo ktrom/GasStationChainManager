@@ -42,9 +42,6 @@ public class Sale {
         // Update inventory
         DatabaseSupport.removeInventory(GasStationID, ItemID, quantityToSell);
 
-        // Log the transaction
-        // TODO
-
         return quantityToSell;
     }
 }
