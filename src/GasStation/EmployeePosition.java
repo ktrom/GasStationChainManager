@@ -7,6 +7,6 @@ public enum EmployeePosition {
     COO,
     CFO,
     MANAGER,
-    HIRING_MANGER,
+    HIRING_MANAGER,
     ATTENDANT
 }

@@ -4,68 +4,60 @@ import Interfaces.Model;
 
 import java.sql.*;
 
-public class Inventory implements Model {
+public class Task implements Model {
 
-    /**
-     * Gas station we're tracking inventory for.
-     */
+    private int TaskID;
+
     private int GasStationID;
 
-    /**
-     * Item we're tracking inventory for.
-     */
-    private int ItemID;
+    private int EmployeeID;
 
-    /**
-     * Quantity of the item available (min of 0).
-     */
-    private int Quantity;
-
-    /**
-     * Construct inventory levels for an existing inventory entry.
-     *
-     * @param GasStationID gas station id
-     * @param ItemID item id
-     */
-    public Inventory(int GasStationID, int ItemID) {
-        // Initialize instance variables
-        this.GasStationID = GasStationID;
-        this.ItemID = ItemID;
-    }
-
-    /**
-     * Construct a new inventory entry for an existing gas station and item at the given starting quantity (min 0).
-     *
-     * @param GasStationID gas station to track inventory at
-     * @param ItemID item to track inventory of
-     * @param Quantity starting quantity of item
-     */
-    public Inventory(int GasStationID, int ItemID, int Quantity) {
-        // Initialize instance variables
-        this.GasStationID = GasStationID;
-        this.ItemID = ItemID;
-        this.Quantity = Quantity;
-    }
+    private String TaskDescription;
 
     public int getGasStationID() {
-        return this.GasStationID;
+        return GasStationID;
     }
 
-    public int getItemID() {
-        return this.ItemID;
+    public int getTaskID() {
+        return TaskID;
     }
 
-    public int getQuantity() {
-        return this.Quantity;
+    public void setTaskID(int taskID) {
+        TaskID = taskID;
     }
 
-    public void setQuantity(int Quantity) {
-        this.Quantity = Quantity;
+    public void setGasStationID(int gasStationID) {
+        GasStationID = gasStationID;
+    }
+
+    public int getEmployeeID() {
+        return EmployeeID;
+    }
+
+    public void setEmployeeID(int employeeID) {
+        EmployeeID = employeeID;
+    }
+
+    public String getTaskDescription() {
+        return TaskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        TaskDescription = taskDescription;
+    }
+
+    public Task(int gasStationID, int employeeID, String taskDescription) {
+        GasStationID = gasStationID;
+        EmployeeID = employeeID;
+        TaskDescription = taskDescription;
+    }
+
+    public Task(int taskID){
+        TaskID = taskID;
     }
 
     /**
-     * Pull changes to this Inventory.
-     *
+     * Pulls existing data from the database corresponding with this objects ID
      * @return true if successful, false otherwise
      */
     public boolean pull(){
@@ -76,15 +68,16 @@ public class Inventory implements Model {
             return false;
         }
     }
+
+
     private boolean pullHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Inventory WHERE GasStationID = ? AND ItemID = ?";
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Task WHERE TaskID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
-        ps.setInt(1, this.GasStationID);
-        ps.setInt(2, this.ItemID);
+        ps.setInt(1, this.TaskID);
 
         // Execute query
         ResultSet rs = ps.executeQuery();
@@ -94,8 +87,8 @@ public class Inventory implements Model {
 
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
-        this.ItemID = rs.getInt("ItemID");
-        this.Quantity = rs.getInt("Quantity");
+        this.EmployeeID= rs.getInt("EmployeeId");
+        this.TaskDescription = rs.getString("TaskDescription");
 
         // Close all opened streams
         rs.close();
@@ -106,9 +99,8 @@ public class Inventory implements Model {
     }
 
     /**
-     * Push Inventory changed fields to the database.
-     *
-     * @return true if push successful, false otherwise
+     * Pushes data to the database corresponding for this objects ID
+     * @return true if successful, false otherwise
      */
     public boolean push(){
         try {
@@ -123,11 +115,11 @@ public class Inventory implements Model {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "UPDATE hsnkwamy_GasStation.Inventory SET Quantity = ? WHERE GasStationID = ? AND ItemID = ?";
+        String stationQuery = "UPDATE hsnkwamy_GasStation.Task SET GasStationId = ?, EmployeeID = ?, TaskDescription = ? WHERE TaskID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
-        ps.setInt(1, this.Quantity);
-        ps.setInt(2, this.GasStationID);
-        ps.setInt(3, this.ItemID);
+        ps.setInt(1, this.GasStationID);
+        ps.setInt(2, this.EmployeeID);
+        ps.setString(3, this.TaskDescription);
 
         // Execute the update
         int rowsAffected = ps.executeUpdate();
@@ -140,8 +132,7 @@ public class Inventory implements Model {
     }
 
     /**
-     * Create a new Inventory entry in the database.
-     *
+     * Creates row in the database corresponding with this objects ID and all initialized properties
      * @return true if successful, false otherwise
      */
     public boolean create(){
@@ -152,16 +143,17 @@ public class Inventory implements Model {
             return false;
         }
     }
+
     private boolean createHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "INSERT INTO hsnkwamy_GasStation.Inventory SET GasStationID = ?, ItemID = ?, Quantity = ?";
-        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        String stationQuery = "INSERT INTO hsnkwamy_GasStation.Task SET GasStationId = ?, EmployeeId = ?, TaskDescription = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, this.GasStationID);
-        ps.setInt(2, this.ItemID);
-        ps.setInt(3, this.Quantity);
+        ps.setInt(2, this.EmployeeID);
+        ps.setString(3, this.TaskDescription);
 
         // Execute insert
         try {
@@ -171,10 +163,17 @@ public class Inventory implements Model {
             return false;
         }
 
+        // Set the ItemID
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        this.TaskID = rs.getInt(1);
+
         // Close opened streams
+        rs.close();
         ps.close();
         conn.close();
 
         return true;
     }
+
 }

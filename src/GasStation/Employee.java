@@ -1,8 +1,13 @@
 package GasStation;
 
+import Interfaces.Model;
+
 import java.sql.*;
 
-public class Employee {
+/**
+ * Class representing any employee in the Gas Station Chain
+ */
+public class Employee implements Model {
 
     /**
      * Employee ID.
@@ -134,7 +139,21 @@ public class Employee {
      *
      * @return true if successful, false otherwise
      */
-    public boolean pull() throws SQLException {
+    public boolean pull(){
+        try {
+            return pullHelper();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Pulls changes to this employee from the database
+     * @return True if successful, false if not successful
+     * @throws SQLException if unsuccessful execution
+     */
+    private boolean pullHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -155,8 +174,8 @@ public class Employee {
         this.SSN = rs.getString("SSN");
         this.Salary = rs.getDouble("Salary");
         this.Department = rs.getString("Department");
-        String poo = rs.getString("EmployeePosition").toUpperCase();
-        this.employeePosition = EmployeePosition.valueOf(poo);
+        String pos = rs.getString("EmployeePosition").toUpperCase();
+        this.employeePosition = EmployeePosition.valueOf(pos);
         this.StartDate = rs.getDate("StartDate");
 
         // Close all opened streams
@@ -172,7 +191,21 @@ public class Employee {
      *
      * @return true if push successful, false otherwise
      */
-    public boolean push() throws SQLException {
+    public boolean push(){
+        try {
+            return pushHelper();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Pushes changes to this employee to the database
+     * @return True if successful, false if not successful
+     * @throws SQLException if unsuccessful execution
+     */
+    private boolean pushHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -203,7 +236,21 @@ public class Employee {
      *
      * @return true if successful, false otherwise
      */
-    public boolean create() throws SQLException {
+    public boolean create(){
+        try {
+            return createHelper();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Creates an employee in the database
+     * @return True if successful, false if not successful
+     * @throws SQLException if unsuccessful execution
+     */
+    private boolean createHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 

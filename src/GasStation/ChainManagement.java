@@ -12,28 +12,21 @@ public class ChainManagement {
      * @param inventory inventory to be restocked
      * @return true if fleet deployed successfully, false otherwise
      */
-    public boolean deployFleet(Inventory[] inventory) throws SQLException {
-        // Process each item
-        for(Inventory inv : inventory) {
-
-            // Validate the inventory item
-            if (DatabaseSupport.getInventoryItem(inv.getGasStationID(), inv.getItemID()) == null) {
-                // Gas station doesn't sell this item
-                return false;
-            }
-
-            // Update the inventory
-            Inventory invUpdated = new Inventory(inv.getGasStationID(), inv.getItemID());
-            invUpdated.pull();
-
-            // Update the stock
-            invUpdated.setQuantity(invUpdated.getQuantity() + inv.getQuantity());
-
-            // Push updated quantities in stock
-            invUpdated.push();
+    public boolean deployFleet(Inventory inventory) throws SQLException {
+        // Validate the inventory item
+        if (DatabaseSupport.getInventoryItem(inventory.getGasStationID(), inventory.getItemID()) == null) {
+            // Gas station doesn't sell this item
+            return false;
         }
 
-        // Reached this point, all items have been processed
+        // Update the inventory
+        Inventory invUpdated = new Inventory(inventory.getGasStationID(), inventory.getItemID());
+        invUpdated.pull();
+
+        // Update the stock
+        invUpdated.setQuantity(invUpdated.getQuantity() + inventory.getQuantity());
+        invUpdated.push();
+
         return true;
     }
 }

@@ -1,9 +1,14 @@
 package DatabaseClasses;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import GasStation.Employee;
+import GasStation.Utilities;
 
+import java.sql.*;
+import java.util.ArrayList;
+
+/**
+ * Creates all necessary tables in the database if nonexistent
+ */
 public class DatabaseSetup {
 
     /**
@@ -17,8 +22,15 @@ public class DatabaseSetup {
         createItemTable(conn);
         createInventoryTable(conn);
         createScheduleTable(conn);
+        createTransactionTable(conn);
+        createTaskTable(conn);
     }
 
+    /**
+     * Creates a table for the GasStation class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createGasStationTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -30,6 +42,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Employee class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createEmployeeTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -41,13 +58,18 @@ public class DatabaseSetup {
                     "SSN VARCHAR(11) NOT NULL," +
                     "Salary DOUBLE NOT NULL," +
                     "Department VARCHAR(20)," +
-                    "EmployeePosition ENUM('COO', 'CFDO', 'MANAGER', 'HIRING_MANAGER', 'ATTENDANT') NOT NULL," +
+                    "EmployeePosition ENUM('COO', 'CFO', 'MANAGER', 'HIRING_MANAGER', 'ATTENDANT') NOT NULL," +
                     "StartDate TIMESTAMP NOT NULL DEFAULT NOW()," +
                     "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)" +
                 ")";
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Item class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createItemTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -63,6 +85,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Inventory class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createInventoryTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -78,6 +105,11 @@ public class DatabaseSetup {
         stmt.executeUpdate(sql);
     }
 
+    /**
+     * Creates a table for the Schedule class
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
     private static void createScheduleTable(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
 
@@ -91,4 +123,48 @@ public class DatabaseSetup {
                 ")";
         stmt.executeUpdate(sql);
     }
+
+    /**
+     * Creates a table for the Transaction class in the database 
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
+    private static void createTransactionTable(Connection conn) throws SQLException {
+        Statement stmt = conn.createStatement();
+
+        String sql =
+                "CREATE TABLE IF NOT EXISTS Transaction(" +
+                        "TransactionID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
+                        "GasStationID INT UNSIGNED," +
+                        "ItemID INT UNSIGNED," +
+                        "Quantity INT UNSIGNED NOT NULL DEFAULT 0," +
+                        "DateSold DATE ," +
+                        "FOREIGN KEY(ItemID) REFERENCES Item(ItemID)," +
+                        "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)" +
+                        ")";
+        stmt.executeUpdate(sql);
+    }
+
+
+    /**
+     * Creates a table for the Task class in the database
+     * @param conn The Connection to the database (JDBC)
+     * @throws SQLException if unsuccessful execution of query
+     */
+    private static void createTaskTable(Connection conn) throws SQLException {
+        Statement stmt = conn.createStatement();
+
+        String sql =
+                "CREATE TABLE IF NOT EXISTS Task(" +
+                        "TaskID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
+                        "GasStationID INT UNSIGNED," +
+                        "EmployeeID INT UNSIGNED," +
+                        "TaskDescription VARCHAR (50)," +
+                        "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)," +
+                        "FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID)" +
+                        ")";
+        stmt.executeUpdate(sql);
+    }
+
+
 }

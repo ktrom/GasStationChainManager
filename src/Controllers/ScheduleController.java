@@ -1,79 +1,52 @@
 package Controllers;
 
-import GasStation.Employee;
+
+import DatabaseClasses.DatabaseSupport;
 import GasStation.GasStation;
 import GasStation.Schedule;
+import HelperClasses.HelperFunctions;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Scanner;
 
-public class ScheduleController {
+/**
+ * Handles database queries for the Schedule class
+ */
+public class ScheduleController{
 
     /**
-     * schedules an employee at the given manager's gas station
-     * @param managerId
+     * Returns a string of the gas station schedule in the format
+     * <Employee name, Scheduled Date, Scheduled Shift> ordered by date, then shift
+     * for all scheduled persons at the gas station.
+     * @param gasStationId The gas station to get the schedule for
+     * @return A string representation of the schedule
      */
-     public void scheduleEmployee(int managerId) {
-         Scanner s = new Scanner(System.in);
+    public String gasStationSchedule(int gasStationId){
+        GasStation g = new GasStation(gasStationId);
+        g.pull();
 
-         Employee manager = new Employee(managerId);
+        try {
+            return DatabaseSupport.gasStationScheduleString(g.getGasStationID());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
 
-         try {
-             manager.pull();
-         } catch (SQLException throwables) {
-             System.out.println("Error pulling manager");
-             throwables.printStackTrace();
-         }
-
-         GasStation currentStation = new GasStation(manager.getGasStationID());
-
-         ArrayList<Employee> availableEmployees = new ArrayList<Employee>();
-         try {
-            availableEmployees = currentStation.getEmployees();
-         } catch (SQLException throwables) {
-             System.out.println("Error finding available employees");
-             throwables.printStackTrace();
-         }
-
-         System.out.println("Which Employee would you like to schedule?");
-         Iterator<Employee> i = availableEmployees.iterator();
-         int j = 1;
-         while(i.hasNext()){
-             Employee nextEmployee = i.next();
-             System.out.println(j + ": " + nextEmployee.getName());
-             j++;
-         }
-         int selectedIndex = s.nextInt() - 1;
-         Employee selectedEmployee = availableEmployees.get(selectedIndex);
-
-         int employeeId = selectedEmployee.getEmployeeID();
-
-         String date = "";
-
-         System.out.println("What day would you like to schedule the employee for? (YYYY-MM-DD)");
-         date = s.next();
-
-         Date d = Date.valueOf(date);
-
-         System.out.println("What shift would you like to schedule the employee for?");
-         System.out.println("1: 7-3");
-         System.out.println("2: 3-11");
-         System.out.println("3: 11-7");
-
-         System.out.println("Enter 1, 2, or 3: ");
-         int shift = s.nextInt();
-
-         Schedule schedule = new Schedule(currentStation.getGasStationID(), employeeId, d, shift);
-         try {
-             schedule.create();
-         } catch (SQLException throwables) {
-             System.out.println("Schedule addition failed.");
-             throwables.printStackTrace();
-         }
-     }
+    /**
+     * Adds an employee to the schedule by creating a Schedule object and saving it to the database
+     * @param gasStationID ID of the gas station
+     * @param employeeId ID of the employee
+     * @param date Date to schedule employee for
+     * @param shift Shift to schedule employee for
+     * @return true if successful creation & save, false otherwise
+     */
+    public boolean
+    scheduleEmployee(int gasStationID, int employeeId, Date date, int shift){
+        Schedule schedule = new Schedule(gasStationID, employeeId, date, shift);
+        schedule.create();
+        return true;
+    }
 
 }
