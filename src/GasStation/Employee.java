@@ -155,8 +155,8 @@ public class Employee {
         this.SSN = rs.getString("SSN");
         this.Salary = rs.getDouble("Salary");
         this.Department = rs.getString("Department");
-        String poo = rs.getString("EmployeePosition").toUpperCase();
-        this.employeePosition = EmployeePosition.valueOf(poo);
+        String pos = rs.getString("EmployeePosition").toUpperCase();
+        this.employeePosition = EmployeePosition.valueOf(pos);
         this.StartDate = rs.getDate("StartDate");
 
         // Close all opened streams
