@@ -1,6 +1,7 @@
 package UI;
 
 import Controllers.EmployeeController;
+import Controllers.SaleController;
 import Controllers.TransactionController;
 import GasStation.Employee;
 import GasStation.Transaction;
@@ -23,7 +24,7 @@ public class AttendantUI {
     public void handleAttendant(int attendantID) {
         Scanner scan = new Scanner(System.in);
         int option = 1;
-        System.out.println("Logged in as attendant\n");
+        System.out.println("Logged in as Attendant\n");
 
         while (option == 1) {
 
@@ -49,17 +50,23 @@ public class AttendantUI {
 
         int gasStationID = ec.getGasStationID(attendantID);
 
-        System.out.println("Enter the item id");
+        System.out.println("Enter the item id:");
         int itemId = scan.nextInt();
 
-        System.out.println("Enter the quantity that is being purchased");
-        double quantity = scan.nextDouble();
+        System.out.println("Enter the quantity that is being purchased:");
+        int quantity = scan.nextInt();
+
+        SaleController sc = new SaleController();
+        try {
+            sc.sellItem(gasStationID, itemId, quantity);
+        } catch (SQLException e) {
+            System.out.println("System error.");
+        }
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime todaysDate = LocalDateTime.now();
         String k = todaysDate.toString();
         Date d = Date.valueOf(todaysDate.toString().substring(0,10));
-
 
         TransactionController tc = new TransactionController();
         boolean complete = tc.createTransaction(itemId, gasStationID, quantity, d);
