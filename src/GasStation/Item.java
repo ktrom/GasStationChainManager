@@ -94,7 +94,7 @@ public class Item {
         this.Price = Price;
     }
 
-    public void setSupplierCost(Double SupplierCost) {
+    public void setSupplierCost(Double SupplierPrice) {
         this.SupplierPrice = SupplierPrice;
     }
 
