@@ -43,7 +43,7 @@ public class HiringManagerController {
             System.out.println("0. " + EmployeePosition.ATTENDANT);
         } else if(this.Department.equals(EmployeeDepartment.Managerial.toString())) {
             System.out.println("0. " + EmployeePosition.MANAGER);
-            System.out.println("1. " + EmployeePosition.HIRING_MANGER);
+            System.out.println("1. " + EmployeePosition.HIRING_MANAGER);
         }
     }
 
@@ -81,7 +81,7 @@ public class HiringManagerController {
                     this.EmployeePosition = GasStation.EmployeePosition.MANAGER;
                     return true;
                 } else if( input == 1){
-                    this.EmployeePosition = GasStation.EmployeePosition.HIRING_MANGER;
+                    this.EmployeePosition = GasStation.EmployeePosition.HIRING_MANAGER;
                     return true;
                 }
             }

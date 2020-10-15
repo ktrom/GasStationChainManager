@@ -2,6 +2,7 @@ package GasStation;
 
 import Controllers.HiringManagerController;
 import Controllers.ScheduleController;
+import Controllers.TransactionController;
 import DatabaseClasses.DatabaseSetup;
 
 import java.sql.Array;
@@ -40,17 +41,8 @@ public class Manager {
 //        s.scheduleEmployee(m.getEmployeeID());
 
 
-        GasStation g = new GasStation(5);
-        g.pull();
-
-        Employee manny = new Employee(17);
-        manny.pull();
-
-        HiringManagerController h = new HiringManagerController();
-        h.hiringManagerOptions(manny.getEmployeeID());
-        h.hiringManagerOptions(manny.getEmployeeID());
-        ScheduleController c=  new ScheduleController();
-        c.scheduleEmployee(manny.getEmployeeID());
+        TransactionController trans = new TransactionController();
+        trans.makeTransaction(2);
         //        GasStation g = new GasStation(1);
 //        g.pull();
 //

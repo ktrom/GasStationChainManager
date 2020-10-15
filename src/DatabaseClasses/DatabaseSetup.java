@@ -17,6 +17,8 @@ public class DatabaseSetup {
         createItemTable(conn);
         createInventoryTable(conn);
         createScheduleTable(conn);
+        createTransactionTable(conn);
+        createTaskTable(conn);
     }
 
     private static void createGasStationTable(Connection conn) throws SQLException {
@@ -88,6 +90,38 @@ public class DatabaseSetup {
                     "Shift ENUM('1', '2', '3') NOT NULL," +
                     "PRIMARY KEY(GasStationID, EmployeeID, Date, Shift)" +
                 ")";
+        stmt.executeUpdate(sql);
+    }
+
+    private static void createTransactionTable(Connection conn) throws SQLException {
+        Statement stmt = conn.createStatement();
+
+        String sql =
+                "CREATE TABLE IF NOT EXISTS Transaction(" +
+                        "TransactionID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
+                        "GasStationID INT UNSIGNED," +
+                        "ItemID INT UNSIGNED," +
+                        "Quantity INT UNSIGNED NOT NULL DEFAULT 0," +
+                        "DateSold DATE ," +
+                        "FOREIGN KEY(ItemID) REFERENCES Item(ItemID)," +
+                        "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)" +
+                        ")";
+        stmt.executeUpdate(sql);
+    }
+
+
+    private static void createTaskTable(Connection conn) throws SQLException {
+        Statement stmt = conn.createStatement();
+
+        String sql =
+                "CREATE TABLE IF NOT EXISTS Task(" +
+                        "TaskID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
+                        "GasStationID INT UNSIGNED," +
+                        "EmployeeID INT UNSIGNED," +
+                        "TaskDescription VARCHAR (50)," +
+                        "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)," +
+                        "FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID)" +
+                        ")";
         stmt.executeUpdate(sql);
     }
 }
