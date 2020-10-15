@@ -17,7 +17,7 @@ public class ChainManagementController {
      * @param inventory items and quantities to restock
      * @return true if fleet deployed successfully, false otherwise
      */
-    public boolean deployFleet(Inventory[] inventory) throws SQLException {
+    public boolean deployFleet(Inventory inventory) throws SQLException {
         return this.getChainManagementInstance().deployFleet(inventory);
     }
 
