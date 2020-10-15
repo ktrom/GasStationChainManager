@@ -22,7 +22,7 @@ public class Item {
     /**
      * Cost for the chain to purchase this item from the supplier.
      */
-    private Double SupplierCost;
+    private Double SupplierPrice;
 
     /**
      * Link to an image of this Item.
@@ -49,13 +49,15 @@ public class Item {
      *
      * @param Name item name
      * @param Price item price
+     * @param SupplierPrice chain purchase price
      * @param PhotoURL link to photo of item
      * @param Notes notes on item
      */
-    public Item(String Name, Double Price, String PhotoURL, String Notes) {
+    public Item(String Name, Double Price, Double SupplierPrice, String PhotoURL, String Notes) {
         // Initialize instance variables
         this.Name = Name;
         this.Price = Price;
+        this.SupplierPrice = SupplierPrice;
         this.PhotoURL = PhotoURL;
         this.Notes = Notes;
     }
@@ -72,8 +74,8 @@ public class Item {
         return this.Price;
     }
 
-    public Double getSupplierCost() {
-        return this.SupplierCost;
+    public Double getSupplierPrice() {
+        return this.SupplierPrice;
     }
 
     public String getPhotoURL() {
@@ -90,6 +92,10 @@ public class Item {
 
     public void setPrice(Double Price) {
         this.Price = Price;
+    }
+
+    public void setSupplierCost(Double SupplierCost) {
+        this.SupplierPrice = SupplierPrice;
     }
 
     public void setPhotoURL(String PhotoURL) {
@@ -124,7 +130,7 @@ public class Item {
         this.ItemID = rs.getInt("ItemID");
         this.Name = rs.getString("Name");
         this.Price = rs.getDouble("Price");
-        this.SupplierCost = rs.getDouble("SupplierCost");
+        this.SupplierPrice = rs.getDouble("SupplierPrice");
         this.PhotoURL = rs.getString("PhotoURL");
         this.Notes = rs.getString("Notes");
 
@@ -146,11 +152,11 @@ public class Item {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "UPDATE hsnkwamy_GasStation.Item SET Name = ?, Price = ?, SupplierCost = ?, PhotoURL = ?, Notes = ? WHERE ItemID = ?";
+        String stationQuery = "UPDATE hsnkwamy_GasStation.Item SET Name = ?, Price = ?, SupplierPrice = ?, PhotoURL = ?, Notes = ? WHERE ItemID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setString(1, this.Name);
         ps.setDouble(2, this.Price);
-        ps.setDouble(3, this.SupplierCost);
+        ps.setDouble(3, this.SupplierPrice);
         ps.setString(4, this.PhotoURL);
         ps.setString(5, this.Notes);
         ps.setInt(6, this.ItemID);
@@ -175,11 +181,11 @@ public class Item {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "INSERT INTO hsnkwamy_GasStation.Item SET Name = ?, Price = ?, SupplierCost = ?, PhotoURL = ?, Notes = ?";
+        String stationQuery = "INSERT INTO hsnkwamy_GasStation.Item SET Name = ?, Price = ?, SupplierPrice = ?, PhotoURL = ?, Notes = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, this.Name);
         ps.setDouble(2, this.Price);
-        ps.setDouble(3, this.SupplierCost);
+        ps.setDouble(3, this.SupplierPrice);
         ps.setString(4, this.PhotoURL);
         ps.setString(5, this.Notes);
 

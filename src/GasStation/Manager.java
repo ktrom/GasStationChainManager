@@ -39,13 +39,12 @@ public class Manager {
 //        s.scheduleEmployee(m.getEmployeeID(), attendant.getEmployeeID(), workDay, 1);
 
 
-        // Create inventory
-        Inventory i = new Inventory(1, 1, 10);
+//        Item i1 = new Item("Pizza", 2.50, 0.50, "google.com/pizza", "Pizza for the boys.");
+//        i1.create();
+//
+//        Item i2 = new Item("Chips", 1.50, 0.25, "google.com/chips", "Chippies are good");
+//        i2.create();
 
-        Inventory[] inv = new Inventory[1];
-        inv[0] = i;
 
-        ChainManagementController cmc = new ChainManagementController();
-        cmc.deployFleet(inv);
     }
 }
