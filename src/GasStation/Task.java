@@ -56,6 +56,10 @@ public class Task implements Model {
         TaskID = taskID;
     }
 
+    /**
+     * Pulls existing data from the database corresponding with this objects ID
+     * @return true if successful, false otherwise
+     */
     public boolean pull(){
         try {
             return pullHelper();
@@ -64,6 +68,8 @@ public class Task implements Model {
             return false;
         }
     }
+
+
     private boolean pullHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -92,6 +98,10 @@ public class Task implements Model {
         return true;
     }
 
+    /**
+     * Pushes data to the database corresponding for this objects ID
+     * @return true if successful, false otherwise
+     */
     public boolean push(){
         try {
             return pushHelper();
@@ -121,6 +131,10 @@ public class Task implements Model {
         return rowsAffected == 1;
     }
 
+    /**
+     * Creates row in the database corresponding with this objects ID and all initialized properties
+     * @return true if successful, false otherwise
+     */
     public boolean create(){
         try {
             return createHelper();

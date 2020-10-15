@@ -7,8 +7,15 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * User Interaction class for the CFO
+ */
 public class CFOUI {
 
+    /**
+     * Handles the case where the actor is a CFO
+     * @param CFOID ID of CFO (Actor)
+     */
     public void handleCFO(int CFOID) {
         Scanner scan = new Scanner(System.in);
         int option = 1;
@@ -23,6 +30,9 @@ public class CFOUI {
         }
     }
 
+    /**
+     * Allows the CFO user to interact with the system to view certain financials of the business
+     */
     private void viewFinancials(){
         Scanner scan = new Scanner(System.in);
             boolean exit = false;

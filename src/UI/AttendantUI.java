@@ -11,8 +11,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+/**
+ * User Interface class for Gas Station Attendants
+ */
 public class AttendantUI {
 
+    /**
+     * Handles the case where the actor is an attendant
+     * @param attendantID ID of Attendant (Actor)
+     */
     public void handleAttendant(int attendantID) {
         Scanner scan = new Scanner(System.in);
         int option = 1;
@@ -30,6 +37,12 @@ public class AttendantUI {
             }
         }
     }
+
+    /**
+     * Enables an Attendant to process a transaction
+     * @param attendantID ID of Attendant (Actor)
+     * @return true if transaction was successfully recorded, false otherwise
+     */
     private boolean makeTransaction(int attendantID){
         Scanner scan = new Scanner(System.in);
         EmployeeController ec = new EmployeeController();

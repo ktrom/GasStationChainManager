@@ -4,6 +4,9 @@ import Interfaces.Model;
 
 import java.sql.*;
 
+/**
+ * Class representing any employee in the Gas Station Chain
+ */
 public class Employee implements Model {
 
     /**
@@ -145,6 +148,11 @@ public class Employee implements Model {
         }
     }
 
+    /**
+     * Pulls changes to this employee from the database
+     * @return True if successful, false if not successful
+     * @throws SQLException if unsuccessful execution
+     */
     private boolean pullHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -192,6 +200,11 @@ public class Employee implements Model {
         }
     }
 
+    /**
+     * Pushes changes to this employee to the database
+     * @return True if successful, false if not successful
+     * @throws SQLException if unsuccessful execution
+     */
     private boolean pushHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
@@ -231,6 +244,12 @@ public class Employee implements Model {
             return false;
         }
     }
+
+    /**
+     * Creates an employee in the database
+     * @return True if successful, false if not successful
+     * @throws SQLException if unsuccessful execution
+     */
     private boolean createHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();

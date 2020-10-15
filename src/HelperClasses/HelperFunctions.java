@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class HelperFunctions {
+    /**
+     * Enables user to give a date range for retrieving revenue in a time period
+     * @return Date[] with startdate at index 0 and enddate at index 1
+     */
     public static Date[] getDates() {
         Date start = null, end = null;
         Scanner s = new Scanner(System.in);
