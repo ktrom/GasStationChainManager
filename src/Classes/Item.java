@@ -66,8 +66,4 @@ public class Item {
         this.photoURL = photoURL;
         this.notes = notes;
     }
-
-    public void addItem(int ID){
-
-    }
 }
