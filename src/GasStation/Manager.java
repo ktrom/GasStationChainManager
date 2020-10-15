@@ -2,12 +2,9 @@ package GasStation;
 
 import Controllers.*;
 import DatabaseClasses.DatabaseSetup;
-import HelperClasses.HelperFunctions;
 import UI.*;
 
-import java.sql.Array;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -44,12 +41,13 @@ public class Manager {
                 CFOUI prompt = new CFOUI();
                 prompt.handleCFO(id);
             }
-
+            if (position == EmployeePosition.COO) {
+                COOUI prompt = new COOUI();
+                prompt.handleCOO(id);
+            }
         } else {
             AdminUI prompt = new AdminUI();
             prompt.handleAdmin(id);
         }
-
-
     }
 }
