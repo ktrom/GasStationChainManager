@@ -2,6 +2,8 @@ package GasStation;
 
 import Controllers.*;
 import DatabaseClasses.DatabaseSetup;
+import HelperClasses.HelperFunctions;
+import UI.*;
 
 import java.sql.Array;
 import java.sql.Connection;
@@ -20,36 +22,34 @@ public class Manager {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your employee ID: ");
         int id = scan.nextInt();
+        System.out.println();
 
+        if (id != -999) {
+            EmployeeController ec = new EmployeeController();
+            EmployeePosition position = ec.getEmployeePosition(id);
 
+            if (position == EmployeePosition.MANAGER) {
+                ManagerUI prompt = new ManagerUI();
+                prompt.handleManager(id);
+            }
+            if (position == EmployeePosition.ATTENDANT) {
+                AttendantUI prompt = new AttendantUI();
+                prompt.handleAttendant(id);
+            }
+            if (position == EmployeePosition.HIRING_MANAGER) {
+                HiringManagerUI prompt = new HiringManagerUI();
+                prompt.handleHiringManager(id);
+            }
+            if (position == EmployeePosition.CFO) {
+                CFOUI prompt = new CFOUI();
+                prompt.handleCFO(id);
+            }
 
-    }
-
-
-    COO,
-    CFO,
-    MANAGER,
-    HIRING_MANAGER,
-    ATTENDANT
-
-    private void handleCOOOptions() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("1. Deploy Fleet");
-        int choice = scan.nextInt();
-        if(choice == 1){
-            ChainManagementController c = new ChainManagementController();
-
-            System.out.println("Enter Gas Station ID: ");
-            int gasStationId = scan.nextInt();
-
-            System.out.println("");
-
-            c.deployFleet()
+        } else {
+            AdminUI prompt = new AdminUI();
+            prompt.handleAdmin(id);
         }
 
-    };
-    private void printCFOOptions{
-        System.out.println("1. Total Weekly Revenue");
-        System.out.println("2. Total Weekly Revenue");
+
     }
 }

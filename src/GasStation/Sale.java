@@ -1,7 +1,7 @@
 package GasStation;
 
 import DatabaseClasses.DatabaseSupport;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import Interfaces.Model;
 
 import java.sql.SQLException;
 import java.util.NoSuchElementException;

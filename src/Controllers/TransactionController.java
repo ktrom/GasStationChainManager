@@ -13,40 +13,9 @@ import java.util.Scanner;
 
 public class TransactionController {
 
-    public void makeTransaction(int attendantID){
-        Scanner scan = new Scanner(System.in);
-        Employee currentAttendant = new Employee(attendantID);
-
-        try {
-            currentAttendant.pull();
-        } catch (SQLException throwables) {
-            System.out.println("Could not find attendant ID");
-            throwables.printStackTrace();
-        }
-
-        int gasStationID = currentAttendant.getGasStationID();
-
-        System.out.println("Enter the item id");
-        int itemId = scan.nextInt();
-
-        System.out.println("Enter the quantity that is being purchased");
-        double quantity = scan.nextDouble();
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime todaysDate = LocalDateTime.now();
-        String k = todaysDate.toString();
-        Date d = Date.valueOf(todaysDate.toString().substring(0,10));
-
-
-        Transaction transaction = new Transaction(itemId, gasStationID, quantity, d);
-
-        try {
-            transaction.create();
-        } catch (SQLException throwables) {
-            System.out.println("Transaction could not be created");
-            throwables.printStackTrace();
-        }
+    public boolean createTransaction(int itemID, int gasStationID, double quantity, Date date){
+        Transaction transaction = new Transaction(itemID, gasStationID, quantity, date);
+        return transaction.create();
     }
-
 
 }

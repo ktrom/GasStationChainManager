@@ -1,9 +1,11 @@
 package GasStation;
 
+import Interfaces.Model;
+
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Transaction {
+public class Transaction implements Model {
     /**
      * Transaction id.
      */
@@ -73,7 +75,15 @@ public class Transaction {
         DateSold = dateSold;
     }
 
-    public boolean pull() throws SQLException {
+    public boolean pull(){
+        try {
+            return pullHelper();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+    private boolean pullHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -102,7 +112,15 @@ public class Transaction {
         return true;
     }
 
-    public boolean push() throws SQLException {
+    public boolean push(){
+        try {
+            return pushHelper();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+    private boolean pushHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -125,7 +143,15 @@ public class Transaction {
         return rowsAffected == 1;
     }
 
-    public boolean create() throws SQLException {
+    public boolean create(){
+        try {
+            return createHelper();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+    private boolean createHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 

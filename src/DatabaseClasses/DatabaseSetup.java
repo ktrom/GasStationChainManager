@@ -43,7 +43,7 @@ public class DatabaseSetup {
                     "SSN VARCHAR(11) NOT NULL," +
                     "Salary DOUBLE NOT NULL," +
                     "Department VARCHAR(20)," +
-                    "EmployeePosition ENUM('COO', 'CFDO', 'MANAGER', 'HIRING_MANAGER', 'ATTENDANT') NOT NULL," +
+                    "EmployeePosition ENUM('COO', 'CFO', 'MANAGER', 'HIRING_MANAGER', 'ATTENDANT') NOT NULL," +
                     "StartDate TIMESTAMP NOT NULL DEFAULT NOW()," +
                     "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)" +
                 ")";
