@@ -53,13 +53,15 @@ public class HiringManagerController {
             printDepartments();
             System.out.print("Type number of new hire's department: ");
             int input = s.nextInt();
-            for(int i  = 0; i < EmployeeDepartment.values().length; i++){
-                if (input == i){
-                    this.Department = EmployeeDepartment.values()[i].toString();
-                    return true;
-                }
+            if(input == 0){
+                this.Department = EmployeeDepartment.Service.toString();
+                return true;
+            } else if (input == 1){
+                this.Department = EmployeeDepartment.Managerial.toString();
+                return true;
+            } else {
+                System.out.println("Sorry, that department is not available.  Select from the list of available options");
             }
-            System.out.println("Sorry, that department is not available.  Select from the list of available options");
         }
     }
 
@@ -70,7 +72,7 @@ public class HiringManagerController {
             System.out.print("Type number of new hire's position: ");
             int input = s.nextInt();
             if(this.Department.equals(EmployeeDepartment.Service.toString())){
-                if(input ==0){
+                if(input == 0){
                     this.EmployeePosition = GasStation.EmployeePosition.ATTENDANT;
                     return true;
                 }
@@ -95,8 +97,17 @@ public class HiringManagerController {
         System.out.println("\n\n");
         System.out.print("Enter Employee's name: ");
         this.Name = s.next();
-        System.out.print("Enter Employee's Social Security Number: ");
-        this.SSN = s.next();
+        boolean validSSN = false;
+        while(!validSSN){
+            System.out.print("Enter Employee's Social Security Number: ");
+            String ssn = s.next();
+            if(ssn.length() == 9){
+                this.SSN = ssn;
+                validSSN = true;
+            } else {
+                System.out.println("Sorry, that's an invalid ssn. Type it as #########");
+            }
+        }
         System.out.print("Enter Employee's salary: ");
         this.Salary = s.nextDouble();
 
@@ -109,7 +120,7 @@ public class HiringManagerController {
                 this.StartDate = Date.valueOf(dateString);
                 validDate = true;
             } else {
-                System.out.println("Sorry, that's an invalid date type it as yyyy-mm-dd");
+                System.out.println("Sorry, that's an invalid date. Type it as yyyy-mm-dd");
             }
         }
 
@@ -118,11 +129,11 @@ public class HiringManagerController {
         System.out.println("\nEmployee Registered: ");
         System.out.println("EmployeeId: " + newHire.getEmployeeID());
         System.out.println("Department: " + newHire.getDepartment());
-        System.out.println("Position" + newHire.getEmployeePosition());
-        System.out.println("Gas Station ID" + newHire.getGasStationID());
+        System.out.println("Position: " + newHire.getEmployeePosition());
+        System.out.println("Gas Station ID: " + newHire.getGasStationID());
         System.out.println("Name: " + newHire.getName());
         System.out.println("SSN: " + newHire.getSSN());
-        System.out.println("Salary" + newHire.getSalary());
+        System.out.println("Salary: " + newHire.getSalary());
         System.out.println("Start Date:" + newHire.getStartDate());
     }
 
