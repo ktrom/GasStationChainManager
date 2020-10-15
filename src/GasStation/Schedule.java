@@ -22,7 +22,7 @@ public class Schedule {
     /**
      * Scheduled shift number (1/2/3).
      */
-    private String Shift;
+    private int Shift;
 
     /**
      * Construct schedule for an existing entry.
@@ -44,7 +44,7 @@ public class Schedule {
      * @param Date date to schedule for
      * @param Shift shift number to schedule
      */
-    public Schedule(int GasStationID, int EmployeeID, Date Date, String Shift) {
+    public Schedule(int GasStationID, int EmployeeID, Date Date, int Shift) {
         // Instantiate instance variables
         this.GasStationID = GasStationID;
         this.EmployeeID = EmployeeID;
@@ -64,7 +64,7 @@ public class Schedule {
         return this.Date;
     }
 
-    public String getShift() {
+    public int getShift() {
         return this.Shift;
     }
 
@@ -72,7 +72,7 @@ public class Schedule {
         this.Date = Date;
     }
 
-    public void setShift(String Shift) {
+    public void setShift(int Shift) {
         this.Shift = Shift;
     }
 
@@ -101,7 +101,7 @@ public class Schedule {
         this.GasStationID = rs.getInt("GasStationID");
         this.EmployeeID = rs.getInt("EmployeeID");
         this.Date = rs.getDate("Date");
-        this.Shift = rs.getString("Shift");
+        this.Shift = rs.getInt("Shift");
 
         // Close all opened streams
         rs.close();
@@ -124,7 +124,7 @@ public class Schedule {
         String stationQuery = "UPDATE hsnkwamy_GasStation.Schedule SET Date = ?, Shift = ? WHERE GasStationID = ? AND EmployeeID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setDate(1, this.Date);
-        ps.setString(2, this.Shift);
+        ps.setInt(2, this.Shift);
         ps.setInt(3, this.GasStationID);
         ps.setInt(4, this.EmployeeID);
 
@@ -153,7 +153,7 @@ public class Schedule {
         ps.setInt(1, this.GasStationID);
         ps.setInt(2, this.GasStationID);
         ps.setDate(3, this.Date);
-        ps.setString(4, this.Shift);
+        ps.setInt(4, this.Shift);
 
         // Execute insert
         try {

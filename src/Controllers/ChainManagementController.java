@@ -1,7 +1,6 @@
 package Controllers;
 
 import GasStation.*;
-import java.util.HashMap;
 
 public class ChainManagementController {
 
@@ -13,8 +12,7 @@ public class ChainManagementController {
     /**
      * Deploy gas station management fleet to restock specified gas station.
      *
-     * @param sid gas station to restock
-     * @param items map of items and the number to restock of each
+     * @param inventory items and quantities to restock
      * @return true if fleet deployed successfully, false otherwise
      */
     public boolean deployFleet(Inventory[] inventory) {

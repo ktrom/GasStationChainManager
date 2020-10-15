@@ -14,7 +14,7 @@ public class DatabaseSupport {
      * @param ItemID given item id
      * @return the Item if found, null otherwise
      */
-    public Item getInventoryItem(int GasStationID, int ItemID) throws SQLException {
+    public static Item getInventoryItem(int GasStationID, int ItemID) throws SQLException {
         // Get the inventory entry for item at the given gas station
         Inventory inv = new Inventory(GasStationID, ItemID);
 
