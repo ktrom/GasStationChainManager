@@ -108,9 +108,22 @@ public class ManagerUI {
 
         Scanner scan = new Scanner(System.in);
 
-        int IDofAssignedEmployee;
-        System.out.println("What is the ID of the employee you would like to assign? ");
-        IDofAssignedEmployee = scan.nextInt();
+        GasStationController gsc = new GasStationController();
+        ArrayList<Employee> availableEmployees = gsc.getEmployees(gasStationID);
+
+        System.out.println("Which Employee would you like to assign a task to?");
+        Iterator<Employee> i = availableEmployees.iterator();
+        int j = 1;
+        while (i.hasNext()) {
+            Employee nextEmployee = i.next();
+            System.out.println(j + ": " + nextEmployee.getName());
+            j++;
+        }
+        int selectedIndex = scan.nextInt() - 1;
+
+        Employee selectedEmployee = availableEmployees.get(selectedIndex);
+
+        int employeeId = selectedEmployee.getEmployeeID();
 
         scan.nextLine();
         String taskDescription;
@@ -118,7 +131,7 @@ public class ManagerUI {
         taskDescription = scan.nextLine();
 
         TaskController tc = new TaskController();
-        tc.createTask(gasStationID, IDofAssignedEmployee, taskDescription);
+        tc.createTask(gasStationID, employeeId, taskDescription);
     }
 
     /**
