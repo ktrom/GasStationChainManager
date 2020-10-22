@@ -60,3 +60,7 @@ INSERT INTO hsnkwamy_GasStation.Inventory (GasStationID, ItemID, Quantity)
     (2, 6, 25),
     (1, 7, 150),
     (2, 7, 300);
+
+INSERT INTO hsnkwamy_GasStation.Transaction (TransactionID, GasStationID, ItemID, Quantity, DateSold)
+	VALUES
+    (1, 2, 1, 10, NOW());
