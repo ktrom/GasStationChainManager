@@ -68,7 +68,7 @@ public class HiringManagerUI {
      * @return true when complete
      */
     private boolean getDepartment(Scanner s) {
-        System.out.println("\n\n");
+        System.out.println("\n");
         //runs until successful department input
         while (true) {
             printDepartments();
@@ -93,7 +93,7 @@ public class HiringManagerUI {
      * @return true when complete
      */
     private boolean getPosition(Scanner s) {
-        System.out.println("\n\n");
+        System.out.println("\n");
         //runs until successful position input
         while (true) {
             printPositions();
@@ -133,7 +133,6 @@ public class HiringManagerUI {
         this.GasStationID = hiringManager.getGasStationID();
 
         // get employee personal info
-        System.out.println("\n\n");
         System.out.print("Enter Employee's name: ");
         this.Name = s.next();
         boolean validSSN = false;
@@ -192,7 +191,6 @@ public class HiringManagerUI {
      * @throws SQLException
      */
     public void handleHiringManager(int managerId) throws SQLException {
-        System.out.println("\n\n");
         Scanner s = new Scanner(System.in);
         // Check desired input against available operations
         boolean validInput = false;
@@ -200,8 +198,11 @@ public class HiringManagerUI {
 
         while(!validInput){
             printOperations();
-            System.out.print("Type number of operation you wish to perform: ");
+            System.out.print("Select an option or enter -1 to quit: ");
             int input = s.nextInt(); // user input integer
+            if(input == -1){
+                return;
+            }
             if(input == 0){
                 hireEmployee(s, managerId);
                 validInput = true;

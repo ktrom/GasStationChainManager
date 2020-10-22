@@ -26,6 +26,9 @@ public class CFOUI {
             System.out.println("Select an option or enter -1 to quit:");
             System.out.println("1. View Financials");
             option = scan.nextInt();
+            if(option == -1){
+                return;
+            }
             if(option == 1) {
                 viewFinancials();
             }
