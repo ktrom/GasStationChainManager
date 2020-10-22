@@ -46,9 +46,15 @@ public class CFOUI {
                 printOperations();
                 int option = scan.nextInt();
 
-                Date[] dates = HelperFunctions.getDates();
-                Date start = dates[0];
-                Date end = dates[1];
+                Date[] dates = null;
+                Date start = null;
+                Date end = null;
+
+                if(option != -1){
+                    dates = HelperFunctions.getDates();
+                    start = dates[0];
+                    end = dates[1];
+                }
                 FinancialController fc = new FinancialController();
                 if (option == 1) {
                     System.out.print("Gas Station ID: ");
