@@ -37,4 +37,29 @@ public class GasStationController {
 
         return null;
     }
+
+    /**
+     * Returns location of gas station
+     * @param gasStationID ID of gas station
+     * @return String with location
+     */
+    public String getLocation(int gasStationID){
+        GasStation g = new GasStation(gasStationID);
+        g.pull();
+        return g.getLocation();
+    }
+
+    /**
+     * Assigns random tasks to employees in this gas station
+     * @param gasStationID Gas Station ID
+     * @param desscriptions Descriptions of tasks
+     * @return true if successful, false otherwise
+     */
+    public boolean assignRandomTasks(int gasStationID, ArrayList<String> desscriptions){
+        GasStation g = new GasStation(gasStationID);
+        g.pull();
+        g.pull();
+        g.assignRandomTasks(desscriptions);
+        return true;
+    }
 }

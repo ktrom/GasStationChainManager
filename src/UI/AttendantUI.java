@@ -2,14 +2,17 @@ package UI;
 
 import Controllers.EmployeeController;
 import Controllers.SaleController;
+import Controllers.TaskController;
 import Controllers.TransactionController;
 import GasStation.Employee;
+import GasStation.Task;
 import GasStation.Transaction;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -27,15 +30,19 @@ public class AttendantUI {
         int option = 1;
         System.out.println("Logged in as Attendant\n");
 
-        while (option == 1) {
+        while (option == 1 || option == 2) {
 
             System.out.println("Select an option or enter -1 to quit:");
             System.out.println("1. Make Transaction");
+            System.out.println("2. View/Complete Task");
 
             option = scan.nextInt();
 
             if (option == 1) {
                 makeTransaction(attendantID);
+            }
+            if(option == 2){
+                completeTask(attendantID);
             }
         }
     }
@@ -84,5 +91,25 @@ public class AttendantUI {
         }
 
         return complete;
+    }
+
+    /**
+     * Allows the attendant to complete a task assigned to them
+     * @param attendantID ID of the actor (attendant)
+     */
+    private void completeTask(int attendantID){
+        Scanner scan = new Scanner(System.in);
+        EmployeeController ec = new EmployeeController();
+        ArrayList<Task> employeeTasks = ec.getTasks(attendantID);
+        System.out.println("Enter Task # to complete or -1 to exit");
+        for(int i = 0; i <  employeeTasks.size(); i++){
+            System.out.println("Task "+ (i + 1) + ": " + employeeTasks.get(i).getTaskDescription());
+        }
+        int choice = scan.nextInt() - 1;
+
+        if(choice > -1) {
+            TaskController tc = new TaskController();
+            tc.deleteTask(employeeTasks.get(choice).getTaskID());
+        }
     }
 }

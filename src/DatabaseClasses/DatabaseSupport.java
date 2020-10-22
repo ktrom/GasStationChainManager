@@ -1,12 +1,12 @@
 package DatabaseClasses;
 
-import GasStation.Employee;
-import GasStation.Inventory;
-import GasStation.Item;
-import GasStation.Utilities;
+import Controllers.EmployeeController;
+import Controllers.TaskController;
+import GasStation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DatabaseSupport {
 
@@ -173,5 +173,149 @@ public class DatabaseSupport {
         conn.close();
 
         return schedule;
+    }
+
+    /**
+     * Returns a string of all assigned tasks at given gas station
+     * @param GasStationID ID of gas station
+     * @return String representation of all tasks at gas station
+     * @throws SQLException if query/connection is bad
+     */
+    public static String gasStationTasksString(int GasStationID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Task, hsnkwamy_GasStation.Employee WHERE Employee.GasStationID = ? AND Employee.EmployeeID = Task.EmployeeID ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+        while (rs.next()) {
+            String name = (rs.getString("Name"));
+            String taskDescription = (rs.getString("TaskDescription"));
+            schedule+= name + " has task: " + taskDescription + "\n";
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return schedule;
+    }
+
+    /**
+     * Returns all tasks for a given employee
+     * @param employeeID ID of employee
+     * @return an arraylist of the Tasks for given employee
+     * @throws SQLException if query/connection fails
+     */
+    public static ArrayList<Task> getEmployeeTasks(int employeeID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Task WHERE Task.EmployeeID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, employeeID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+
+        ArrayList<Task> employeeTasks = new ArrayList<Task>();
+        while (rs.next()) {
+            int taskID = (rs.getInt("TaskID"));
+            Task t = new Task(taskID);
+            t.pull();
+             employeeTasks.add(t);
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return employeeTasks;
+    }
+
+    /**
+     * Deletes task from database
+     * @param taskID ID of task to be removed
+     * @return true if successful deletion, false otherwise
+     * @throws SQLException if query or connection fails
+     */
+    public static boolean deleteTask(int taskID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "DELETE FROM hsnkwamy_GasStation.Task WHERE Task.TaskID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, taskID);
+
+        // Execute query
+        ps.executeUpdate();
+
+        // Close all opened streams
+        ps.close();
+        conn.close();
+
+        return true;
+    }
+
+    /**
+     * Assigns random tasks to employees in the gas station
+     * @param GasStationID ID of gas station
+     * @param descriptions Descriptions of tasks
+     * @return true if successful, false othersie
+     * @throws SQLException if failed connection or query
+     */
+    public static boolean assignRandomTasks(int GasStationID, ArrayList<String> descriptions) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Employee WHERE Employee.GasStationID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        String schedule = "";
+        // Set attributes for this GasStation
+
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        while (rs.next()) {
+            int employeeID = (rs.getInt("EmployeeID"));
+            Employee e = new Employee(employeeID);
+            e.pull();
+            employees.add(e);
+        }
+
+        employees.removeIf(emp->emp.getEmployeePosition() == EmployeePosition.MANAGER);
+        Collections.shuffle(employees);
+        for(int i = 0; i < descriptions.size(); i++){
+            TaskController ts = new TaskController();
+            ts.assignTask(GasStationID, employees.get(i % employees.size()).getEmployeeID(), descriptions.get(i));
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+
+        return true;
     }
 }

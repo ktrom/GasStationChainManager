@@ -1,5 +1,7 @@
 package UI;
 
+import Controllers.FinancialController;
+import Controllers.GasStationController;
 import GasStation.GasStation;
 import HelperClasses.HelperFunctions;
 
@@ -44,16 +46,15 @@ public class CFOUI {
                 Date[] dates = HelperFunctions.getDates();
                 Date start = dates[0];
                 Date end = dates[1];
-
+                FinancialController fc = new FinancialController();
                 if (option == 1) {
                     System.out.print("Gas Station ID: ");
-                    GasStation g = new GasStation(scan.nextInt());
+                    int gasStationID = scan.nextInt();
+                    GasStationController gsc = new GasStationController();
 
-                    g.pull();
-
-                    System.out.println("Revenue at the " + g.getLocation() + " location from " + start.toString() + " to " + end.toString() + ": $" + g.calculateStationRev(start, end));
+                    System.out.println("Revenue at the " + gsc.getLocation(gasStationID)+ " location from " + start.toString() + " to " + end.toString() + ": $" + fc.getGasStationRevenue(gasStationID, start, end));
                 } else if (option == 2) {
-                    System.out.println("Total Chain Revenue from " + start.toString() + " to " + end.toString() + ": $" + GasStation.calculateChainRev(start, end));
+                    System.out.println("Total Chain Revenue from " + start.toString() + " to " + end.toString() + ": $" + fc.getChainRevenue(start, end));
                 } else if (option == -1) {
                     System.out.println("Exiting Financial Operations");
                     exit = true;

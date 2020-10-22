@@ -1,10 +1,14 @@
 package Controllers;
 
+import DatabaseClasses.DatabaseSupport;
 import GasStation.Employee;
 import GasStation.EmployeePosition;
+import GasStation.Task;
 
+import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Controller for handling database operations relating to Employee
@@ -59,5 +63,19 @@ public class EmployeeController {
     public boolean createEmployee(int gasStationID, String name, String ssn, double salary, String department, EmployeePosition position, Date startDate){
         Employee e = new Employee(gasStationID, name, ssn, salary, department, position, startDate);
         return e.create();
+    }
+
+    /**
+     * Returns tasks for given Employee
+     * @param employeeID ID of employee
+     * @return ArrayList of all tasks assigned to this employee
+     */
+    public ArrayList<Task> getTasks(int employeeID){
+        try {
+            return DatabaseSupport.getEmployeeTasks(employeeID);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 }
