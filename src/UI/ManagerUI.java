@@ -28,7 +28,7 @@ public class ManagerUI {
         System.out.println("Logged in as Manager\n");
         int option = 1;
 
-        while(option == 1 || option == 2 || option == 3 || option == 4) {
+        while(option == 1 || option == 2 || option == 3 || option == 4 || option == 5) {
             System.out.println("Select an option or enter -1 to quit:");
             System.out.println("1. Schedule Employees");
             System.out.println("2. Assign Task");
