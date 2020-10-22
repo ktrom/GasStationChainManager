@@ -53,7 +53,7 @@ public class DatabaseSetup {
         String sql =
                 "CREATE TABLE IF NOT EXISTS Employee(" +
                     "EmployeeID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
-                    "GasStationID INT UNSIGNED NOT NULL," +
+                    "GasStationID INT UNSIGNED," +
                     "Name VARCHAR(100) NOT NULL," +
                     "SSN VARCHAR(11) NOT NULL," +
                     "Salary DOUBLE NOT NULL," +
