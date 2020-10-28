@@ -179,16 +179,6 @@ public class HireEmployeeCommand implements Command{
         System.out.println("1. " + EmployeeDepartment.Managerial);
     }
 
-    /**
-     * Lists the operations the hiring manager has to choose from
-     */
-    private void printOperations() {
-        System.out.println("\n");
-        // For each operation type the next number: operation
-        System.out.println("Operations: ");
-        System.out.println("0. Hire Employee");
-    }
-
 
     /**
      * Lists the positions available under the given department

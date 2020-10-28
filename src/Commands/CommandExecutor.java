@@ -21,6 +21,7 @@ public class CommandExecutor {
             case ATTENDANT:
                 employeeCommands.add(new MakeTransactionCommand(employeeID));
                 employeeCommands.add(new ViewOrCompleteTaskCommand(employeeID));
+                employeeCommands.add(new CheckLotteryCommand(employeeID));
                 break;
             case MANAGER:
                 employeeCommands.add(new ScheduleEmployeeCommand(employeeID));
@@ -37,6 +38,8 @@ public class CommandExecutor {
                 break;
             case HIRING_MANAGER:
                 employeeCommands.add(new HireEmployeeCommand(employeeID));
+                employeeCommands.add(new UpdateEmployeeCommand(employeeID));
+                employeeCommands.add(new RemoveEmployeeCommand(employeeID));
                 break;
         }
 
