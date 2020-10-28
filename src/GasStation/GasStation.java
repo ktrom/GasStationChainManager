@@ -21,6 +21,26 @@ public class GasStation implements Model {
     private String Location;
 
     /**
+     * Gas station name.
+     */
+    private String Name;
+
+    /**
+     * Gas station phone number.
+     */
+    private String PhoneNumber;
+
+    /**
+     * Gas station photo.
+     */
+    private String Photo;
+
+    /**
+     * Gas station notes for management.
+     */
+    private String Notes;
+
+    /**
      * Create an existing GasStation.
      *
      * @param GasStationID given GasStationID
@@ -81,6 +101,10 @@ public class GasStation implements Model {
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
         this.Location = rs.getString("Location");
+        this.Name = rs.getString("Name");
+        this.PhoneNumber = rs.getString("PhoneNumber");
+        this.Photo = rs.getString("Photo");
+        this.Notes = rs.getString("Notes");
 
         // Close all opened streams
         rs.close();
@@ -103,16 +127,19 @@ public class GasStation implements Model {
             return false;
         }
     }
-
     private boolean pushHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "UPDATE hsnkwamy_GasStation.GasStation SET Location = ? WHERE GasStationID = ?";
+        String stationQuery = "UPDATE hsnkwamy_GasStation.GasStation SET Location = ?, Name = ?, PhoneNumber = ?, Photo = ?, Notes = ? WHERE GasStationID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setString(1, this.Location);
-        ps.setInt(2, this.GasStationID);
+        ps.setString(2, this.Name);
+        ps.setString(3, this.PhoneNumber);
+        ps.setString(4, this.Photo);
+        ps.setString(5, this.Notes);
+        ps.setInt(6, this.GasStationID);
 
         // Execute the update
         int rowsAffected = ps.executeUpdate();
@@ -142,9 +169,13 @@ public class GasStation implements Model {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "INSERT INTO hsnkwamy_GasStation.GasStation SET Location = ?";
+        String stationQuery = "INSERT INTO hsnkwamy_GasStation.GasStation SET Location = ?, Name = ?, PhoneNumber = ?, Photo = ?, Notes = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, this.Location);
+        ps.setString(2, this.Name);
+        ps.setString(3, this.PhoneNumber);
+        ps.setString(4, this.Photo);
+        ps.setString(5, this.Notes);
 
         // Execute insert
         try {
@@ -166,8 +197,6 @@ public class GasStation implements Model {
 
         return true;
     }
-
-
 
     /**
      * Calculates the total revenue at this gas station for the given time period - this includes employee salary deductions and transaction revenue
@@ -378,7 +407,7 @@ public class GasStation implements Model {
      * @param descriptions Descriptions of tasks
      * @return true if successful
      */
-    public boolean assignRandomTasks(ArrayList<String> descriptions){
+    public boolean assignRandomTasks(ArrayList<String> descriptions) {
         try {
             DatabaseSupport.assignRandomTasks(getGasStationID(), descriptions);
         } catch (SQLException throwables) {
@@ -387,5 +416,4 @@ public class GasStation implements Model {
         }
         return true;
     }
-
 }
