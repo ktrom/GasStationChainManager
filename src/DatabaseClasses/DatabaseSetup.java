@@ -41,6 +41,7 @@ public class DatabaseSetup {
                     "Name VARCHAR(50)," +
                     "PhoneNumber VARCHAR(12) UNIQUE," +
                     "Photo TEXT," +
+                    "ConstructionCost DOUBLE," +
                     "Notes TEXT" +
                 ")";
         stmt.executeUpdate(sql);

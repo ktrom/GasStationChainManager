@@ -22,6 +22,16 @@ public class ChainManagementController {
     }
 
     /**
+     * Construct a new gas station with the given values.
+     *
+     * @param station GasStation instance
+     * @return true if gas station valid, false otherwise
+     */
+    public boolean buildGasStation(GasStation station) throws SQLException {
+        return this.getChainManagementInstance().buildGasStation(station);
+    }
+
+    /**
      * Get an instance of a chain management class.
      *
      * @return chain management instance
