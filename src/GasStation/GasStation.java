@@ -3,6 +3,7 @@ package GasStation;
 import DatabaseClasses.DatabaseSupport;
 import HelperClasses.HelperFunctions;
 import Interfaces.Model;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,6 +22,31 @@ public class GasStation implements Model {
     private String Location;
 
     /**
+     * Gas station name.
+     */
+    private String Name;
+
+    /**
+     * Gas station phone number.
+     */
+    private String PhoneNumber;
+
+    /**
+     * Gas station photo.
+     */
+    private String Photo;
+
+    /**
+     * Gas station construction cost.
+     */
+    private long ConstructionCost;
+
+    /**
+     * Gas station notes for management.
+     */
+    private String Notes;
+
+    /**
      * Create an existing GasStation.
      *
      * @param GasStationID given GasStationID
@@ -33,9 +59,14 @@ public class GasStation implements Model {
     /**
      * Create a new GasStation.
      */
-    public GasStation(String Location) {
+    public GasStation(String Location, String Name, String PhoneNumber, String Photo, long ConstructionCost, String Notes) {
         // Initialize instance variables
         this.Location = Location;
+        this.Name = Name;
+        this.PhoneNumber = PhoneNumber;
+        this.Photo = Photo;
+        this.ConstructionCost = ConstructionCost;
+        this.Notes = Notes;
     }
 
     public int getGasStationID() {
@@ -46,8 +77,48 @@ public class GasStation implements Model {
         return this.Location;
     }
 
+    public String getName() {
+        return this.Name;
+    }
+
+    public String getPhoneNumber() {
+        return this.PhoneNumber;
+    }
+
+    public String Photo() {
+        return this.Photo;
+    }
+
+    public long getConstructionCost() {
+        return this.ConstructionCost;
+    }
+
+    public String getNotes() {
+        return this.Notes;
+    }
+
     public void setLocation(String Location) {
         this.Location = Location;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public void setPhoneNumber(String PhoneNumber) {
+        this.PhoneNumber = PhoneNumber;
+    }
+
+    public void setPhoto(String Photo) {
+        this.Photo = Photo;
+    }
+
+    public void setConstructionCost(long ConstructionCost) {
+        this.ConstructionCost = ConstructionCost;
+    }
+
+    public void setNotes(String Notes) {
+        this.Notes = Notes;
     }
 
     /**
@@ -81,6 +152,11 @@ public class GasStation implements Model {
         // Set attributes for this GasStation
         this.GasStationID = rs.getInt("GasStationID");
         this.Location = rs.getString("Location");
+        this.Name = rs.getString("Name");
+        this.PhoneNumber = rs.getString("PhoneNumber");
+        this.Photo = rs.getString("Photo");
+        this.ConstructionCost = rs.getLong("ConstructionCost");
+        this.Notes = rs.getString("Notes");
 
         // Close all opened streams
         rs.close();
@@ -103,16 +179,20 @@ public class GasStation implements Model {
             return false;
         }
     }
-
     private boolean pushHelper() throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "UPDATE hsnkwamy_GasStation.GasStation SET Location = ? WHERE GasStationID = ?";
+        String stationQuery = "UPDATE hsnkwamy_GasStation.GasStation SET Location = ?, Name = ?, PhoneNumber = ?, Photo = ?, ConstructionCost = ?, Notes = ? WHERE GasStationID = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
         ps.setString(1, this.Location);
-        ps.setInt(2, this.GasStationID);
+        ps.setString(2, this.Name);
+        ps.setString(3, this.PhoneNumber);
+        ps.setString(4, this.Photo);
+        ps.setString(5, this.Notes);
+        ps.setLong(6, this.ConstructionCost);
+        ps.setInt(7, this.GasStationID);
 
         // Execute the update
         int rowsAffected = ps.executeUpdate();
@@ -142,9 +222,14 @@ public class GasStation implements Model {
         Connection conn = Utilities.getConnection();
 
         // Build query
-        String stationQuery = "INSERT INTO hsnkwamy_GasStation.GasStation SET Location = ?";
+        String stationQuery = "INSERT INTO hsnkwamy_GasStation.GasStation SET Location = ?, Name = ?, PhoneNumber = ?, Photo = ?, ConstructionCost = ?, Notes = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, this.Location);
+        ps.setString(2, this.Name);
+        ps.setString(3, this.PhoneNumber);
+        ps.setString(4, this.Photo);
+        ps.setLong(5, this.ConstructionCost);
+        ps.setString(6, this.Notes);
 
         // Execute insert
         try {
@@ -166,8 +251,6 @@ public class GasStation implements Model {
 
         return true;
     }
-
-
 
     /**
      * Calculates the total revenue at this gas station for the given time period - this includes employee salary deductions and transaction revenue
@@ -378,7 +461,7 @@ public class GasStation implements Model {
      * @param descriptions Descriptions of tasks
      * @return true if successful
      */
-    public boolean assignRandomTasks(ArrayList<String> descriptions){
+    public boolean assignRandomTasks(ArrayList<String> descriptions) {
         try {
             DatabaseSupport.assignRandomTasks(getGasStationID(), descriptions);
         } catch (SQLException throwables) {
@@ -387,5 +470,4 @@ public class GasStation implements Model {
         }
         return true;
     }
-
 }

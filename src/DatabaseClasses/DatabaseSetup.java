@@ -37,7 +37,12 @@ public class DatabaseSetup {
         String sql =
                 "CREATE TABLE IF NOT EXISTS GasStation(" +
                     "GasStationID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
-                    "Location VARCHAR(50) UNIQUE" +
+                    "Location VARCHAR(50) UNIQUE," +
+                    "Name VARCHAR(50)," +
+                    "PhoneNumber VARCHAR(12) UNIQUE," +
+                    "Photo TEXT," +
+                    "ConstructionCost DOUBLE," +
+                    "Notes TEXT" +
                 ")";
         stmt.executeUpdate(sql);
     }

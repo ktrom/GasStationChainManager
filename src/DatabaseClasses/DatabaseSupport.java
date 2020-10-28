@@ -318,4 +318,75 @@ public class DatabaseSupport {
 
         return true;
     }
+
+    /**
+     * Deletes employee from database
+     * @param employeeID ID of employee to be removed
+     * @return true if successful deletion, false otherwise
+     * @throws SQLException if query or connection fails
+     */
+    public static boolean deleteEmployee(int employeeID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "DELETE FROM hsnkwamy_GasStation.Employee WHERE Employee.EmployeeID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, employeeID);
+
+        // Execute query
+        ps.executeUpdate();
+
+        // Close all opened streams
+        ps.close();
+        conn.close();
+
+        return true;
+    }
+
+    /**
+     * Determine if a phone number is valid (not in use by another gas station).
+     *
+     * @param PhoneNumber given phone number
+     * @return true if phone number valid, false otherwise
+     */
+    public static boolean isValidPhoneNumber(String PhoneNumber) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT COUNT(*) AS num FROM hsnkwamy_GasStation.GasStation WHERE PhoneNumber = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setString(1, PhoneNumber);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        // Determine how many stations have the given phone number
+        rs.next();
+        return rs.getInt("num") <= 0;
+    }
+
+    /**
+     * Determine if a gas station location is valid (not in use by another gas station).
+     *
+     * @param Location given location
+     * @return true if location valid, false otherwise
+     */
+    public static boolean isValidStationLocation(String Location) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT COUNT(*) AS num FROM hsnkwamy_GasStation.GasStation WHERE Location = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setString(1, Location);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        // Determine how many stations have the given phone number
+        rs.next();
+        return rs.getInt("num") <= 0;
+    }
 }
