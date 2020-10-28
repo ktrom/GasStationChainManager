@@ -47,9 +47,6 @@ public class ChainManagement {
             throw new IllegalArgumentException("phone");
         }
 
-        // Log the transaction
-
-
         // Create the new gas station record
         return station.create();
     }
