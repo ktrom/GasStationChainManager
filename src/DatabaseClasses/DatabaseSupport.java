@@ -389,4 +389,26 @@ public class DatabaseSupport {
         rs.next();
         return rs.getInt("num") <= 0;
     }
+
+    /**
+     * Determine if an item is already tracked.
+     *
+     * @param ItemName given item name
+     * @return true if item already exists, false otherwise
+     */
+    public static boolean itemUnique(String ItemName) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT COUNT(*) AS num FROM hsnkwamy_GasStation.Item WHERE Name = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        // Determine if other items have the same name
+        rs.next();
+        return rs.getInt("num") <= 0;
+    }
 }

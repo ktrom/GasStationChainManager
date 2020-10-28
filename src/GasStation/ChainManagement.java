@@ -50,4 +50,26 @@ public class ChainManagement {
         // Create the new gas station record
         return station.create();
     }
+
+    /**
+     * Add a new item for stations to be able to stock and sell.
+     *
+     * @param item given item to track
+     * @return true if item is valid, false otherwise
+     */
+    public boolean addItem(Item item) throws SQLException {
+        // Confirm item isn't in system yet
+        if (!DatabaseSupport.itemUnique(item.getName())){
+            // Duplicate item
+            throw new IllegalArgumentException("duplicate");
+        }
+
+        // Validate item price
+        if (item.getPrice() <= 0 || item.getSupplierPrice() <= 0) {
+            throw new IllegalArgumentException("price");
+        }
+
+        // Create the new item
+        return item.create();
+    }
 }

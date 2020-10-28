@@ -32,6 +32,16 @@ public class ChainManagementController {
     }
 
     /**
+     * Add a new item for stations to be able to stock and sell.
+     *
+     * @param item given item to track
+     * @return true if item is valid, false otherwise
+     */
+    public boolean addItem(Item item) throws SQLException {
+        return this.getChainManagementInstance().addItem(item);
+    }
+
+    /**
      * Get an instance of a chain management class.
      *
      * @return chain management instance
