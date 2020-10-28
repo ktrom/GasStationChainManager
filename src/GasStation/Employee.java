@@ -1,8 +1,10 @@
 package GasStation;
 
+import Commands.*;
 import Interfaces.Model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Class representing any employee in the Gas Station Chain
@@ -285,4 +287,5 @@ public class Employee implements Model {
 
         return true;
     }
+
 }
