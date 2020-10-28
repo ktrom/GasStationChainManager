@@ -29,4 +29,28 @@ public class ChainManagement {
 
         return true;
     }
+
+    /**
+     * Construct a new gas station with the given values.
+     *
+     * @param station GasStation instance
+     * @return true if gas station valid, false otherwise
+     */
+    public boolean buildGasStation(GasStation station) throws SQLException {
+        // Determine if the location is valid
+        if (!DatabaseSupport.isValidStationLocation(station.getLocation())) {
+            throw new IllegalArgumentException("location");
+        }
+
+        // Determine if the phone number is valid
+        if (!DatabaseSupport.isValidPhoneNumber(station.getPhoneNumber())) {
+            throw new IllegalArgumentException("phone");
+        }
+
+        // Log the transaction
+
+
+        // Create the new gas station record
+        return station.create();
+    }
 }
