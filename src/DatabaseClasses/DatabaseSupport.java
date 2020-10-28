@@ -318,4 +318,29 @@ public class DatabaseSupport {
 
         return true;
     }
+
+    /**
+     * Deletes employee from database
+     * @param employeeID ID of employee to be removed
+     * @return true if successful deletion, false otherwise
+     * @throws SQLException if query or connection fails
+     */
+    public static boolean deleteEmployee(int employeeID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "DELETE FROM hsnkwamy_GasStation.Employee WHERE Employee.EmployeeID = ? ";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, employeeID);
+
+        // Execute query
+        ps.executeUpdate();
+
+        // Close all opened streams
+        ps.close();
+        conn.close();
+
+        return true;
+    }
 }

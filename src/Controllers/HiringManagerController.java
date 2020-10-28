@@ -1,5 +1,6 @@
 package Controllers;
 
+import DatabaseClasses.DatabaseSupport;
 import GasStation.Employee;
 import GasStation.EmployeeDepartment;
 import GasStation.EmployeePosition;
@@ -30,5 +31,21 @@ public class HiringManagerController {
         Employee newHire = new Employee(GasStationID, Name, SSN, salary, department, employeePosition, startDate);
         newHire.create();
         return newHire;
+    }
+
+    /**
+     * Removes a employee from the database.
+     * Used when an employee completes a task
+     * @param employeeID ID of omployee to be removed
+     * @return true if successful removal, false otherwise
+     */
+    public boolean deleteEmployee(int employeeID){
+        try {
+            DatabaseSupport.deleteEmployee(employeeID);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
