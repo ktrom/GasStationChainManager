@@ -59,14 +59,9 @@ public class GasStation implements Model {
     /**
      * Create a new GasStation.
      */
-    public GasStation(String Location, String Name, String PhoneNumber, String Photo, long ConstructionCost, String Notes) {
+    public GasStation(String Location) {
         // Initialize instance variables
         this.Location = Location;
-        this.Name = Name;
-        this.PhoneNumber = PhoneNumber;
-        this.Photo = Photo;
-        this.ConstructionCost = ConstructionCost;
-        this.Notes = Notes;
     }
 
     public int getGasStationID() {
