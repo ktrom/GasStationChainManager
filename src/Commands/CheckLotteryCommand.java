@@ -2,6 +2,7 @@ package Commands;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class CheckLotteryCommand implements Command{
     public static final String description = "Check Lottery Ticket";
@@ -117,16 +118,49 @@ public class CheckLotteryCommand implements Command{
     }
 
     /**
+     * Checks the customes age against the current date to see if they are 21 years of age or older
+     * @return true if greater than 21 years else false
+     */
+    private boolean checkAge() {
+        Scanner s = new Scanner(System.in);
+        while(true){
+            System.out.print("Please enter customer's date of birth (yyyy-mm-dd): ");
+            String dob = s.next();
+            String[] ymd = dob.split("-");
+            if(ymd.length != 3 || Integer.parseInt(ymd[0]) < 1000 || Integer.parseInt(ymd[1]) < 1 || Integer.parseInt(ymd[1]) > 12 || Integer.parseInt(ymd[2]) < 1 || Integer.parseInt(ymd[2]) > 31){
+                System.out.print("Invalid dob, try again");
+            } else {
+                LocalDate d = LocalDate.now();
+                int day = d.getDayOfMonth();
+                int month = d.getMonthValue();
+                int year = d.getYear();
+                if(year - Integer.parseInt(ymd[0])>21){
+                    return true;
+                } else if (year - Integer.parseInt(ymd[0])==21 && month - Integer.parseInt(ymd[1]) >= 0 && day - Integer.parseInt(ymd[2]) >= 0){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
+    /**
      * Returns if and how much a customer won on a lottery ticket
      */
     private void checkLottery(){
-        int winnings = calculateWinnings();
-        if(winnings > 0){
-            if (winnings > 0){
-                System.out.print("Winning ticket! Customer won $" + winnings);
+        boolean ofAge = checkAge();
+        if(ofAge){
+            int winnings = calculateWinnings();
+            if(winnings > 0){
+                if (winnings > 0){
+                    System.out.println("Winning ticket! Customer won $" + winnings);
+                }
+            } else {
+                System.out.println("Sorry, not a winner");
             }
         } else {
-            System.out.print("Sorry, not a winner");
+            System.out.println("Customer not 21, do not check ticket");
         }
     }
 
