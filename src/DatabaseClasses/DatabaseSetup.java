@@ -141,10 +141,9 @@ public class DatabaseSetup {
                 "CREATE TABLE IF NOT EXISTS Transaction(" +
                         "TransactionID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
                         "GasStationID INT UNSIGNED," +
-                        "ItemID INT UNSIGNED," +
-                        "Quantity INT UNSIGNED NOT NULL DEFAULT 0," +
+                        "ItemID INT," +
+                        "Quantity INT NOT NULL DEFAULT 0," +
                         "DateSold DATE ," +
-                        "FOREIGN KEY(ItemID) REFERENCES Item(ItemID)," +
                         "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)" +
                         ")";
         stmt.executeUpdate(sql);

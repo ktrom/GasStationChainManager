@@ -35,6 +35,8 @@ public class CommandExecutor {
                 break;
             case COO:
                 employeeCommands.add(new DeployFleetCommand(employeeID));
+                employeeCommands.add(new BuildGasStationCommand(employeeID));
+                employeeCommands.add(new AddItemCommand(employeeID));
                 break;
             case HIRING_MANAGER:
                 employeeCommands.add(new HireEmployeeCommand(employeeID));

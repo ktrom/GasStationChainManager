@@ -17,47 +17,33 @@ public class AdminUI {
 
         while(option > -1){
             System.out.println("Enter one of the following options or -1 to exit");
-            System.out.println("1: Add Gas Station");
-            System.out.println("2: Add Quick Item");
-            System.out.println("3: Add Item");
-            System.out.println("4: Add Quick Employee");
-            System.out.println("5: Add Employee");
-            System.out.println("6: Add Transaction");
-            System.out.println("7: Add Schedule");
+            System.out.println("1: Add Quick Item");
+            System.out.println("2: Add Item");
+            System.out.println("3: Add Quick Employee");
+            System.out.println("4: Add Employee");
+            System.out.println("5: Add Transaction");
+            System.out.println("6: Add Schedule");
             option = scan.nextInt();
             System.out.println();
             if(option == 1){
-                addGasStation();
-            }
-            if(option == 2){
                 addQuickItem();
             }
-            if(option == 3){
+            if(option == 2){
                 addItem();
             }
-            if(option == 4){
+            if(option == 3){
                 addQuickEmployee();
             }
-            if(option == 5){
+            if(option == 4){
                 addEmployee();
             }
-            if(option == 6){
+            if(option == 5){
                 addTransaction();
             }
-            if(option == 7){
+            if(option == 6){
                 addSchedule();
             }
         }
-    }
-
-    private void addGasStation(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Add Gas Station");
-        System.out.println("Enter Location");
-        String location = scan.nextLine();
-
-        GasStationController gc = new GasStationController();
-        gc.createGasStation(location);
     }
 
     private void addQuickItem()

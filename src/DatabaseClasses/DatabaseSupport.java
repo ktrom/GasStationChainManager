@@ -403,6 +403,7 @@ public class DatabaseSupport {
         // Build query
         String stationQuery = "SELECT COUNT(*) AS num FROM hsnkwamy_GasStation.Item WHERE Name = ?";
         PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setString(1, ItemName);
 
         // Execute query
         ResultSet rs = ps.executeQuery();
@@ -410,5 +411,24 @@ public class DatabaseSupport {
         // Determine if other items have the same name
         rs.next();
         return rs.getInt("num") <= 0;
+    }
+
+    /**
+     * Get the latest constructed gas station.
+     *
+     * @return id of the gas station
+     */
+    public static int getLatestGasStation() throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT MAX(GasStationID) AS station FROM hsnkwamy_GasStation.GasStation";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("station");
     }
 }

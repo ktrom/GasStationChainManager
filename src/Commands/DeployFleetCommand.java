@@ -9,15 +9,15 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Scanner;
 
-public class DeployFleetCommand implements Command{
+public class DeployFleetCommand implements Command {
     private final static String description = "Deploy Fleet";
     private int cooID;
 
-    public DeployFleetCommand(int cooID){
+    public DeployFleetCommand(int cooID) {
         this.cooID = cooID;
     }
 
-    private boolean deployFleet(){
+    private boolean deployFleet() {
         Scanner scan = new Scanner(System.in);
         ChainManagementController cmc = new ChainManagementController();
 
