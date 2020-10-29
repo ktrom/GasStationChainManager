@@ -122,11 +122,8 @@ public class CheckLotteryCommand implements Command{
     private void checkLottery(){
         int winnings = calculateWinnings();
         if(winnings > 0){
-            if (winnings < 100){
-                System.out.print("Winning ticket! Pay out " + winnings);
-                //make transaction to deduct from revenue
-            } else {
-                System.out.print("Jackpot ticket! $" + winnings + " is too much, send customer to state lotto");
+            if (winnings > 0){
+                System.out.print("Winning ticket! Customer won $" + winnings);
             }
         } else {
             System.out.print("Sorry, not a winner");
