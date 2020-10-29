@@ -1,7 +1,5 @@
 package Interfaces;
 
-import java.sql.SQLException;
-
 /**
  * Interface for all classes to be stored in the database
  */
