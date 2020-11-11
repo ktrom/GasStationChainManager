@@ -43,7 +43,13 @@ INSERT INTO hsnkwamy_GasStation.Item (Name, Price, SupplierPrice, PhotoURL, Note
     ("Pepperoni Pizza", 1.00, 0.25, "", "Prepared daily by chef mic."),
     ("Chips", 1.00, 0.50, "", "Probably stale and opened already but they'll still buy them."),
     ("Red Bull", 6.00, 5.00, "", "Not for consumption by children."),
-    ("Donut Holes", 2.00, 1.50, "", "When they can bounce throw them out.");
+    ("Donut Holes", 2.00, 1.50, "", "When they can bounce throw them out."),
+    ("Powerball Lottery Ticket", 2.00, 1.90, "", "Try your luck!");
+
+#     ("Mega Millions Lottery Ticket", 2.00, 1.90, "", "Who wants to be a millionaire?"),
+#     ("Scratch-off Lottery Ticket", 5.00, 4.00, "", "Not for sniffing.");
+
+
 
 INSERT INTO hsnkwamy_GasStation.Inventory (GasStationID, ItemID, Quantity)
 	VALUES

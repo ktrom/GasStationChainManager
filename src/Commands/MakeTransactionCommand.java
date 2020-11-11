@@ -3,11 +3,14 @@ package Commands;
 import Controllers.EmployeeController;
 import Controllers.SaleController;
 import Controllers.TransactionController;
+import GasStation.Item;
+import HelperClasses.Constants;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -31,6 +34,14 @@ public class MakeTransactionCommand implements Command {
         System.out.println("Enter the item id:");
         int itemId = scan.nextInt();
 
+        Item purchaseItem = new Item(itemId);
+        purchaseItem.pull();
+
+        // Checks if the item ID is a lottery ticket ID
+        // Executes lottery functionality if the item ID is a lottery ticket ID
+        if(Arrays.asList(Constants.LotteryIds).contains(itemId)){
+            if(itemId==Constants.PowerBallId)
+        }
         System.out.println("Enter the quantity that is being purchased:");
         int quantity = scan.nextInt();
 
@@ -46,7 +57,7 @@ public class MakeTransactionCommand implements Command {
             return false;
         }
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-mm-dd");
         LocalDateTime todaysDate = LocalDateTime.now();
         String k = todaysDate.toString();
         Date d = Date.valueOf(todaysDate.toString().substring(0,10));
