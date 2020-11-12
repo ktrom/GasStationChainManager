@@ -19,10 +19,10 @@ ALTER TABLE hsnkwamy_GasStation.Task AUTO_INCREMENT = 1;
 
 
 -- INSERTS --
-INSERT INTO hsnkwamy_GasStation.GasStation (Location)
+INSERT INTO hsnkwamy_GasStation.GasStation (Location, Name, PhoneNumber, Photo, ConstructionCost, Notes)
 	VALUES
-    ("4018 Lincoln Way, Ames IA 50014"),
-    ("3406 Lincoln Way, Ames IA 50010");
+    ("4018 Lincoln Way, Ames IA 50014", "Caseys", "515-922-2901", "images.google.com?caseys", 93291, "Caseys gas station"),
+    ("3406 Lincoln Way, Ames IA 50010", "Hyvee Gas Station", "515-203-1023", "images.google.com?hyveegas", 123222, "Hyvee gas station");
 
 INSERT INTO hsnkwamy_GasStation.Employee(GasStationID, Name, SSN, Salary, Department, EmployeePosition, StartDate)
 	VALUES
