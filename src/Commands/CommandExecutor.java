@@ -29,6 +29,7 @@ public class CommandExecutor {
                 employeeCommands.add(new RandomlyAssignTasksCommand(employeeID));
                 employeeCommands.add(new PrintScheduleCommand(employeeID));
                 employeeCommands.add(new PrintTasksCommand(employeeID));
+                employeeCommands.add(new GiveRaiseCommand(employeeID));
                 break;
             case CFO:
                 employeeCommands.add(new ViewFinancialsCommand());

@@ -18,7 +18,7 @@ public class HelperFunctions {
         // get start date from user
         boolean validDate = false;
         while (!validDate) {
-            System.out.print("Please enter start date you wish to see revenue from (yyyy-mm-dd: ");
+            System.out.print("Please enter start date you wish to see revenue from (yyyy-mm-dd): ");
             String dateString = s.next();
             String[] date = dateString.split("-");
             if (date.length == 3 && Integer.parseInt(date[0]) > 999 && Integer.parseInt(date[0]) < 10000 && Integer.parseInt(date[1]) > 0 && Integer.parseInt(date[1]) < 13 && Integer.parseInt(date[2]) > 0 && Integer.parseInt(date[2]) < 32) {

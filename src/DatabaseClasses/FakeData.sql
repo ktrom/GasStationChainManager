@@ -46,7 +46,8 @@ INSERT INTO hsnkwamy_GasStation.Item (Name, Price, SupplierPrice, PhotoURL, Note
     ("Donut Holes", 2.00, 1.50, "", "When they can bounce throw them out."),
     ("Powerball Lottery Ticket", 2.00, 1.90, "", "Try your luck!"),
     ("Mega Millions Lottery Ticket", 2.00, 1.90, "", "Who wants to be a millionaire?"),
-    ("Scratch-off Lottery Ticket", 5.00, 4.00, "", "Not for sniffing.");
+    ("Scratch-off Lottery Ticket", 5.00, 4.00, "", "Not for sniffing."),
+    ("Powerball Multiplier", 1.00, 0.95,"", "Raise your game.");
 
 
 
@@ -70,7 +71,9 @@ INSERT INTO hsnkwamy_GasStation.Inventory (GasStationID, ItemID, Quantity)
     (1, 9, 1000),
     (2, 9, 1000),
     (1, 10, 1000),
-    (2, 10, 1000);
+    (2, 10, 1000),
+    (1, 11, 1000),
+    (2, 11, 1000);
 
 INSERT INTO hsnkwamy_GasStation.Transaction (TransactionID, GasStationID, ItemID, Quantity, DateSold)
 	VALUES
