@@ -71,7 +71,7 @@ public class ManageGasStationCommand implements Command {
             return false;
         }
 
-        System.out.println("Gas station successfully updated!\n\n");
+        System.out.println("Gas station successfully updated!\n");
         return true;
     }
 
