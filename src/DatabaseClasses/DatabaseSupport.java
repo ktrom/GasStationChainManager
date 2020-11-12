@@ -431,4 +431,24 @@ public class DatabaseSupport {
         rs.next();
         return rs.getInt("station");
     }
+
+    /**
+     * Determine if a gas station with the given id already exists.
+     *
+     * @param stationId given gas station id
+     * @return true if the station exists, false otherwise
+     */
+    public static boolean gasStationExists(int stationId) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT GasStationId FROM hsnkwamy_GasStation.GasStation WHERE GasStationId = ?";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, stationId);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
 }

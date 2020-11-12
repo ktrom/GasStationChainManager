@@ -43,4 +43,25 @@ public class Sale {
 
         return quantityToSell;
     }
+
+    /**
+     * Sell the given quantity of the given type of gas.
+     *
+     * @param GasStationID gas station to sell from
+     * @param GasItemID gas type to sell
+     * @param Quantity quantity of gas to sell
+     * @return quantity of gas sold
+     */
+    public int sellGas(int GasStationID, int GasItemID, int Quantity) throws SQLException {
+        // Confirm the given item ID is for gas
+        Item gas = new Item(GasItemID);
+        gas.pull();
+        if (!gas.getNotes().toLowerCase().contains("fuel")) {
+            // Item isn't gas or is an invalid item
+            throw new IllegalArgumentException("\nInvalid gas type: " + gas.getName() + "\n");
+        }
+
+        // Sell the item
+        return sellItem(GasStationID, GasItemID, Quantity);
+    }
 }

@@ -32,6 +32,16 @@ public class ChainManagementController {
     }
 
     /**
+     * Update a gas station.
+     *
+     * @param station GasStation instance
+     * @return true if gas station valid, false otherwise
+     */
+    public boolean manageGasStation(GasStation station) throws SQLException {
+        return this.getChainManagementInstance().manageGasStation(station);
+    }
+
+    /**
      * Add a new item for stations to be able to stock and sell.
      *
      * @param item given item to track

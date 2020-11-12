@@ -85,7 +85,7 @@ public class GasStation implements Model {
         return this.PhoneNumber;
     }
 
-    public String Photo() {
+    public String getPhoto() {
         return this.Photo;
     }
 
@@ -190,8 +190,8 @@ public class GasStation implements Model {
         ps.setString(2, this.Name);
         ps.setString(3, this.PhoneNumber);
         ps.setString(4, this.Photo);
-        ps.setString(5, this.Notes);
-        ps.setLong(6, this.ConstructionCost);
+        ps.setLong(5, this.ConstructionCost);
+        ps.setString(6, this.Notes);
         ps.setInt(7, this.GasStationID);
 
         // Execute the update

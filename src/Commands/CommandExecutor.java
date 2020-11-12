@@ -20,6 +20,7 @@ public class CommandExecutor {
         switch (employee.getEmployeePosition()){
             case ATTENDANT:
                 employeeCommands.add(new MakeTransactionCommand(employeeID));
+                employeeCommands.add(new SellGasCommand((employeeID)));
                 employeeCommands.add(new ViewOrCompleteTaskCommand(employeeID));
                 employeeCommands.add(new CheckLotteryCommand(employeeID));
                 break;
@@ -34,8 +35,9 @@ public class CommandExecutor {
                 employeeCommands.add(new ViewFinancialsCommand());
                 break;
             case COO:
-                employeeCommands.add(new DeployFleetCommand(employeeID));
                 employeeCommands.add(new BuildGasStationCommand(employeeID));
+                employeeCommands.add(new ManageGasStationCommand(employeeID));
+                employeeCommands.add(new DeployFleetCommand(employeeID));
                 employeeCommands.add(new AddItemCommand(employeeID));
                 break;
             case HIRING_MANAGER:

@@ -2,6 +2,7 @@ package GasStation;
 
 import DatabaseClasses.DatabaseSupport;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
 public class ChainManagement {
@@ -49,6 +50,54 @@ public class ChainManagement {
 
         // Create the new gas station record
         return station.create();
+    }
+
+    /**
+     * Manage gas station fields.
+     *
+     * @param station gas station with the changes to be made
+     * @return true if changes are valid, false otherwise
+     */
+    public boolean manageGasStation(GasStation station) throws SQLException {
+        // Confirm the given gas station exists
+        if (!DatabaseSupport.gasStationExists(station.getGasStationID())) {
+            throw new IllegalArgumentException("The chosen gas station doesn't exist.");
+        }
+
+        // Validate the location if given
+        if(station.getLocation() != null && !DatabaseSupport.isValidStationLocation(station.getLocation())) {
+            throw new IllegalArgumentException("A gas station is already located at the given address.");
+        }
+
+        // Validate the phone number if given
+        if(station.getPhoneNumber() != null && !DatabaseSupport.isValidPhoneNumber(station.getPhoneNumber())) {
+            throw new IllegalArgumentException("The given phone number is already in use.");
+        }
+
+        // Get the existing gas station
+        GasStation updated = new GasStation(station.getGasStationID());
+        updated.pull();
+
+        // Set all fields that we want to update
+        if (!station.getLocation().equals("")) {
+            updated.setLocation(station.getLocation());
+        }
+        if (!station.getName().equals("")) {
+            updated.setName(station.getName());
+        }
+        if (!station.getPhoneNumber().equals("")) {
+            updated.setPhoneNumber(station.getPhoneNumber());
+        }
+        if (!station.getPhoto().equals("")) {
+            updated.setPhoto(station.getPhoto());
+        }
+        if (!station.getNotes().equals("")) {
+            updated.setNotes(station.getNotes());
+        }
+        updated.setConstructionCost(station.getConstructionCost());
+
+        // Push the updates and return the status of the push
+        return updated.push();
     }
 
     /**

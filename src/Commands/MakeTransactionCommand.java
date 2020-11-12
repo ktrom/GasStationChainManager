@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class MakeTransactionCommand implements Command {
-    private final static String description = "Make Transaction";
+    private final static String description = "Sell Item";
     private int attendantID;
 
     public MakeTransactionCommand(int attendantID){

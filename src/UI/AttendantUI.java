@@ -32,5 +32,5 @@ public class AttendantUI {
 
         CommandExecutor commandExecutor = new CommandExecutor(attendantID);
         commandExecutor.executeCommands();
-        }
+    }
 }
