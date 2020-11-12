@@ -2,10 +2,11 @@ package Commands;
 
 import Controllers.FinancialController;
 import Controllers.GasStationController;
+import Controllers.TransactionController;
 import HelperClasses.HelperFunctions;
 
 import java.sql.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class ViewFinancialsCommand implements Command{
     private final static String description = "View Financials";
@@ -39,7 +40,35 @@ public class ViewFinancialsCommand implements Command{
                 int gasStationID = scan.nextInt();
                 GasStationController gsc = new GasStationController();
 
-                System.out.println("Revenue at the " + gsc.getLocation(gasStationID)+ " location from " + start.toString() + " to " + end.toString() + ": $" + fc.getGasStationRevenue(gasStationID, start, end));
+                int detailedReport;
+                System.out.println("Would you like a detailed report of all revenue streams?");
+                System.out.println("1: Yes");
+                System.out.println("2: No");
+                detailedReport = scan.nextInt();
+
+                if(detailedReport == 1){
+                    System.out.println("\nSummary Report for " + gsc.getLocation(gasStationID) + " location from " + start.toString() + " to " + end.toString());
+                    System.out.println("________________________________________________________________________________________");
+                    System.out.println("Transaction Revenue: $" + fc.getGasStationTransactionRevenue(gasStationID, start, end));
+                    System.out.println("Employee Salaries Expenditure: (-)$" + -fc.getGasStationSalaryDeduction(gasStationID, start, end));
+                    TransactionController tc = new TransactionController();
+                    HashMap<String, double[]> namesToValues = tc.getItemsSoldAtGasStation(gasStationID);
+
+                    System.out.println();
+                    System.out.println("Item Sales:");
+                    System.out.println(" _______________________________________________");
+                    System.out.println(String.format("| %13s | %13s | %13s |", "Item Name", "Quantity Sold", "Item Revenue"));
+                    System.out.println("|_______________________________________________|");
+                    Set<String> names = namesToValues.keySet();
+
+                    for(String name : names){
+                        System.out.println(String.format("| %13s | %13s | %13s |", name, String.format("%6.3f",namesToValues.get(name)[0]), "$"+String.format("%6.2f",namesToValues.get(name)[1])));
+                    }
+                    System.out.println("|_______________|_______________|_______________|");
+                }
+                System.out.println();
+                System.out.println("Total Revenue at the " + gsc.getLocation(gasStationID) + " location from " + start.toString() + " to " + end.toString() + ": $" + fc.getGasStationRevenue(gasStationID, start, end));
+                System.out.println();
             } else if (option == 2) {
                 System.out.println("Total Chain Revenue from " + start.toString() + " to " + end.toString() + ": $" + fc.getChainRevenue(start, end));
             } else if (option == -1) {
@@ -60,12 +89,12 @@ public class ViewFinancialsCommand implements Command{
         // For each operation type the next number: operation
         System.out.println("Operations: ");
         System.out.println("1. Calculate Revenue for Single Station");
-        System.out.println("2. Calculate Revenue for station chain");
+        System.out.println("2. Calculate Revenue for Station Chain");
     }
 
     @Override
     public void execute() {
-        printOperations();
+        viewFinancials();
     }
 
     @Override

@@ -2,11 +2,13 @@ package DatabaseClasses;
 
 import Controllers.EmployeeController;
 import Controllers.TaskController;
+import Controllers.TransactionController;
 import GasStation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class DatabaseSupport {
 
@@ -208,6 +210,46 @@ public class DatabaseSupport {
         conn.close();
 
         return schedule;
+    }
+
+    public static HashMap<String, double[]> gasStationTransactions(int GasStationID) throws SQLException {
+        // Get database connection
+        Connection conn = Utilities.getConnection();
+
+        // Build query
+        String stationQuery = "SELECT * FROM hsnkwamy_GasStation.Transaction, hsnkwamy_GasStation.Item WHERE Transaction.GasStationID = ? AND Transaction.ItemID = Item.ItemID";
+        PreparedStatement ps = conn.prepareStatement(stationQuery);
+        ps.setInt(1, GasStationID);
+
+        // Execute query
+        ResultSet rs = ps.executeQuery();
+
+        // Set attributes for this GasStation
+        HashMap<String, double[]> namesToValues = new HashMap<String, double[]>();
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+        Transaction t;
+        while (rs.next()) {
+            String name = (rs.getString("Name"));
+            double quantity = (double)(rs.getInt("Quantity"));
+            double price = rs.getDouble("Price");
+            double supplierPrice = rs.getDouble("SupplierPrice");
+            if(namesToValues.containsKey(name)){
+                double[] current = namesToValues.get(name);
+                current[0] += quantity;
+                current[1] += quantity*(price-supplierPrice);
+                namesToValues.put(name, current);
+            }
+            else{
+                namesToValues.put(name, new double[]{quantity, quantity*(price - supplierPrice)});
+            }
+        }
+
+        // Close all opened streams
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return namesToValues;
     }
 
     /**

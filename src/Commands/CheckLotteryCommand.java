@@ -121,7 +121,7 @@ public class CheckLotteryCommand implements Command{
      * Checks the customes age against the current date to see if they are 21 years of age or older
      * @return true if greater than 21 years else false
      */
-    private boolean checkAge() {
+    public static boolean checkAge() {
         Scanner s = new Scanner(System.in);
         while(true){
             System.out.print("Please enter customer's date of birth (yyyy-mm-dd): ");

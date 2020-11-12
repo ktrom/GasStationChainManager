@@ -1,14 +1,17 @@
 package Controllers;
 
+import DatabaseClasses.DatabaseSupport;
 import GasStation.Employee;
 import GasStation.Transaction;
 
+import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -27,6 +30,15 @@ public class TransactionController {
     public boolean createTransaction(int itemID, int gasStationID, double quantity, Date date){
         Transaction transaction = new Transaction(itemID, gasStationID, quantity, date);
         return transaction.create();
+    }
+
+    public HashMap<String, double[]> getItemsSoldAtGasStation(int gasStationID){
+        try {
+            return DatabaseSupport.gasStationTransactions(gasStationID);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
 }

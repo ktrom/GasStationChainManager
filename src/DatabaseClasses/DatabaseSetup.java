@@ -81,7 +81,7 @@ public class DatabaseSetup {
         String sql =
                 "CREATE TABLE IF NOT EXISTS Item(" +
                     "ItemID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT," +
-                    "Name VARCHAR(20) NOT NULL," +
+                    "Name VARCHAR(40) NOT NULL," +
                     "Price DOUBLE NOT NULL," +
                     "SupplierPrice DOUBLE NOT NULL," +
                     "PhotoURL TEXT," +
@@ -165,7 +165,7 @@ public class DatabaseSetup {
                         "EmployeeID INT UNSIGNED," +
                         "TaskDescription VARCHAR (50)," +
                         "FOREIGN KEY(GasStationID) REFERENCES GasStation(GasStationID)," +
-                        "FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID)" +
+                        "FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID) ON DELETE CASCADE" +
                         ")";
         stmt.executeUpdate(sql);
     }

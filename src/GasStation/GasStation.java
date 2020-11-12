@@ -285,7 +285,7 @@ public class GasStation implements Model {
      * @return Total revenue from transactions for this GasStation for the given time frame
      * @throws SQLException if unsuccessful query
      */
-    private double getStationTransactionRevenue(Date start, Date end) throws SQLException {
+    public double getStationTransactionRevenue(Date start, Date end) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
@@ -325,7 +325,7 @@ public class GasStation implements Model {
      * @return Sum of all employees' salaries cost to the company (negative value)
      * @throws SQLException if unsuccessful query
      */
-    private double getStationEmployeeDeductionRevenue(Date start, Date end) throws SQLException {
+    public double getStationEmployeeDeductionRevenue(Date start, Date end) throws SQLException {
         // Get database connection
         Connection conn = Utilities.getConnection();
 
